@@ -1,0 +1,81 @@
+<ion-header no-border>
+
+    <ion-navbar color="transparent">
+        <ion-title>{{food.main}} - {{food.name}}</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content fullscreen>
+    <div class="foodimage">
+        <img src="{{food.colorcode}}" style="width: 100%" />
+    </div>
+
+    <div padding *ngIf="food != {}">
+        <h3>{{food.name}}</h3>
+        <div>{{food.main}}
+            <span *ngIf="food.ingredients"> - </span> {{food.ingredients}}
+        </div>
+        <h3><b>₦{{food.price}}</b></h3>
+        <div class="rating">
+            <span *ngFor="let item of [1,2,3,4,5]">
+                <ion-icon name="ios-star" [color]="getStarColor(item)"></ion-icon>
+            </span>
+            <br />
+            <small>(from {{food.rating.total}} ratings)</small>
+        </div>
+        <br />
+        <div>Vendor: {{food.vendor.name}}</div>
+
+        <div>
+            <ion-row>
+                <ion-col width-20>
+                    <button ion-button block outline icon-only color="secondary" (click)="addQuantity()">
+                        <ion-icon name="add"></ion-icon>
+                    </button>
+                </ion-col>
+                <ion-col width-10>
+                    <h2>{{quantity}}</h2>
+                </ion-col>
+                <ion-col width-20>
+                    <button ion-button block icon-only outline color="danger" (click)="removeQuantity()" [disabled]="quantity < 2">
+                        <ion-icon name="remove"></ion-icon>
+                    </button>
+                </ion-col>
+            </ion-row>
+        </div>
+    </div>
+
+    <div class="recBox" *ngIf="false">
+        <ion-card *ngFor="let item of [1,2,3]">
+            <ion-card-header>
+                Samuel Adeyemi
+            </ion-card-header>
+            <ion-card-content>
+                <div class="rating">
+                    <ion-icon name="ios-star" *ngFor="let item of [1,2,3]"></ion-icon>
+                    <ion-icon name="ios-star-outline" *ngFor="let item of [1,2]"></ion-icon>
+                </div>
+                The British use the term "header", but the American term "head-shot" the English simply refuse to adopt.
+            </ion-card-content>
+        </ion-card>
+    </div>
+
+
+    <ion-fab bottom right edge [ngClass]="animateClass">
+        <button ion-fab [color]="cartColor" (click)="presentCart()">{{cartquantity}}<ion-icon name="cart"></ion-icon></button>
+    </ion-fab>
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+        <ion-row>
+            <ion-col></ion-col>
+            <ion-col width-50 text-center>
+                <button ion-button block color="mealgreen" (click)="addToCart()">Add to cart ₦{{food.price}}</button>
+            </ion-col>
+            <ion-col></ion-col>
+        </ion-row>
+    </ion-toolbar>
+</ion-footer>

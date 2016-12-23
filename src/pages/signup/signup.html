@@ -1,0 +1,97 @@
+<ion-header no-border>    
+    <ion-navbar color="transparent">
+        <ion-title></ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content fullscreen padding text-center>
+
+    <div style="height: 20px"></div>
+
+    <img src="assets/longlogo.png" style="width: 80%" />
+    <div class="h3">Create an account</div>
+
+    <ion-list>
+
+        <ion-item>
+            <ion-label floating>Full Name</ion-label>
+            <ion-input [(ngModel)]="user.firstname" type="text"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>Email</ion-label>
+            <ion-input [(ngModel)]="user.email" type="email"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>Phone Number</ion-label>
+            <ion-input [(ngModel)]="user.phoneNo" type="tel"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label floating>Password</ion-label>
+            <ion-input type="password" [(ngModel)]="user.password"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label floating>Confirm Password</ion-label>
+            <ion-input type="password" [(ngModel)]="user.cpassword"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label floating>Referral Code (optional*)</ion-label>
+            <ion-input type="text" [(ngModel)]="user.refcode"></ion-input>
+        </ion-item>
+
+        <div style="height: 50px"></div>
+
+        <ion-item>
+            <ion-label>Workplace</ion-label>
+            <ion-select [(ngModel)]="user.company">
+                <ion-option *ngFor="let company of companies" value="{{company.id}}">{{company.name}}</ion-option>
+                <ion-option value="other">Other</ion-option>
+            </ion-select>
+        </ion-item>
+        <!--<ion-item *ngIf="user.company != 'other'">{{user.company}}</ion-item>-->
+        <div *ngIf="user.company == 'other'" >
+            <ion-item>
+                <ion-label floating>Workplace Name</ion-label>
+                <ion-input [(ngModel)]="user.officename" type="text"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Workplace Street Name only</ion-label>
+                <ion-input [(ngModel)]="user.officeaddress" type="text"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Workplace Full Address</ion-label>
+                <ion-input [(ngModel)]="user.officelocation" type="text"></ion-input>
+            </ion-item>
+             <ion-item>
+            <ion-label>Workplace Location</ion-label>
+            <ion-select [(ngModel)]="user.officeplace">
+                <ion-option value="Yaba">Yaba</ion-option>
+                <ion-option value="Ikeja">Ikeja</ion-option>
+                <ion-option value="Surulere">Surulere</ion-option>
+                <ion-option value="Lekki">Lekki</ion-option>
+                <ion-option value="Ikoyi">Ikoyi</ion-option>
+                <ion-option value="Victoria Island">Victoria Island</ion-option>
+            </ion-select>
+        </ion-item>
+        </div>
+
+    </ion-list>
+
+    <div style="height: 15px"></div>
+    <div *ngIf="loading" text-center>
+        <ion-spinner></ion-spinner>
+    </div>
+    <div style="height: 10px"></div>
+
+    <ion-row text-center *ngIf="!loading" >
+        <ion-col width-80 offset-10>
+            <button ion-button block round color="mealgreen" (click)="register()">Signup</button>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col width-80 offset-10>
+            <button ion-button block clear color="mealgreen" (click)="gotoLogin()">Already have an account? Login</button>
+        </ion-col>
+    </ion-row>
+</ion-content>

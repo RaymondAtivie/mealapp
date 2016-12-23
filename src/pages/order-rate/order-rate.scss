@@ -1,0 +1,21 @@
+page-order-rate {
+    ion-content {
+        background-color: rgba(0, 0, 0, 0.5) !important;
+        padding: 50px !important;
+        .rateBox {
+            background-color: white;
+            width: 100%;
+            margin: auto;
+            min-height: 40%;
+            margin-top: 25%;
+            border-radius: 10px;
+
+            .ratingBox{
+                ion-icon{
+                    padding-right: 5px;
+                    font-size: 30px;
+                }
+            }
+        }
+    }
+}

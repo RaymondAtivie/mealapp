@@ -1,0 +1,20 @@
+page-cart {
+    ion-content {
+        background: url('../assets/backpattern.png');
+        background-size: cover;
+        // padding-bottom: 200px;
+
+        .foodname{
+            font-size: 14px;
+        }
+    }
+    .button-row {
+        ion-col {
+            padding: 2px !important;
+        }
+        button {
+            margin-top: 0px !important;
+            margin-bottom: 0px !important;
+        }
+    }
+}

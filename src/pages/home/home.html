@@ -1,0 +1,28 @@
+<ion-content fullscreen [class]="backclass">
+    <div class="fullBox">
+        <div class="logoImage">
+            <img src="assets/longlogowhite.png" />
+        </div>
+
+        <div class="titleBox">
+            <div class="mainBox">
+                Proactive<br />
+                Healthy<br />
+                Prompts
+            </div>
+            <div class="subBox">
+                YOUR PERSONAL OFFICE MEAL ASSISTANT
+            </div>
+        </div>
+    </div>
+</ion-content>
+<ion-footer>
+    <ion-toolbar text-center color="mealgreen" (click)="gotoLogin()">
+        <div class="loginBtn">LOGIN TO MEALIMETER</div>
+    </ion-toolbar>
+
+    <ion-toolbar text-center color="dark" (click)="gotoSignup()">
+        <div class="regBtn">REGISTER AN ACCOUNT</div>
+    </ion-toolbar>
+
+</ion-footer>

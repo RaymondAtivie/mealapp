@@ -1,0 +1,45 @@
+page-login {
+    ion-content {
+        background: url('../assets/backpattern.png');
+        background-size: cover;
+        background-color: #454444 !important;
+        .item-md {
+            color: white;
+            background-color: transparent;
+        }
+        .item-inner {
+            border-bottom: 0px solid transparent !important;
+        }
+        .item-input.input-has-focus,
+        .item-input.input-has-focus .item-inner {
+            border-bottom-color: color($colors, mealgreen) !important;
+            box-shadow: inset 0 -1px 0 0 color($colors, mealgreen) !important;
+        }
+        .input-has-focus .label-md[floating] {
+            color: color($colors, mealgreen) !important;
+        }
+
+        .error-box{
+            color: red;
+            .errorMsg{
+                border: 1px solid white;
+                padding: 7px;
+                width: 95%;
+                margin: auto;
+                background-color: white;
+                border-radius: 2px;
+            }
+        }
+
+        ion-spinner {
+            * {
+                stroke: white;
+            }
+            &.spinner-circles circle,
+            &.spinner-bubbles circle,
+            &.spinner-dots circle {
+                fill: white;
+            }
+        }
+    }
+}

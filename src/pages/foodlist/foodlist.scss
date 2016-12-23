@@ -1,0 +1,32 @@
+page-foodlist {
+    ion-content {
+        // margin-top: -112px;
+        .headerImg {
+            background: url("../assets/home.jpg") no-repeat center center;
+            background-size: cover;
+            height: 150px;
+            width: 100%;
+        }
+        background: url('../assets/backpattern.png');
+        background-size: cover;
+        .meal-box {
+            margin-bottom: 100px;
+        }
+        .rating {
+            ion-icon {
+                font-size: 15px;
+                // color: color($colors, mealgreen)
+            }
+        }
+        .priceText{
+            color: color($colors, mealgreen);
+            font-size: 20px;
+        }
+        .extra{
+            font-size: smaller;
+        }
+        .mainName{
+            font-weight: bold;
+        }
+    }
+}

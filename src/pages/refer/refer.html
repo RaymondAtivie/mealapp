@@ -1,0 +1,31 @@
+<ion-header>
+
+    <ion-navbar color="dark">
+        <button ion-button menuToggle>
+          <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Free Food</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding text-center>
+    <div class="shareBox">
+        <div>SHARE YOUR INVITE CODE</div>
+        <h1>{{refcode}}</h1>
+        <h4>
+            Get N500 worth of food when you refer a colleague.
+        </h4>
+    </div>
+</ion-content>
+
+<ion-footer>
+
+    <ion-toolbar no-border>
+        <div text-center padding>
+            <button ion-button large block color="mealgreen" (click)="shareCode()">Invite Colleague</button>
+        </div>
+    </ion-toolbar>
+
+</ion-footer>

@@ -1,0 +1,24 @@
+<ion-header>
+
+    <ion-navbar color="dark">
+        <button ion-button menuToggle>
+          <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Order History</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+    <ion-item text-center *ngIf="history.length < 1" >
+        No food ordered yet
+    </ion-item>
+    <ion-item *ngFor="let order of history" (click)="gotoOrder(order)">
+        <h3><b>#MM{{order.batch}}</b> - {{order.date | date:medium}}</h3>
+        <small>{{order.foodsstring}}</small>
+        <h3><b>₦{{order.total_price}}</b></h3>
+        <small>{{order.payment_method}}</small>
+    </ion-item>
+
+</ion-content>

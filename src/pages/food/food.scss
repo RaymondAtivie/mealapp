@@ -1,0 +1,27 @@
+page-food {
+    .foodimage {
+        overflow: hidden;
+        background-size: cover;
+        min-height: 30%;
+        max-height: 45%;
+        width: 100%;
+        margin-top: -56px;
+    }
+    .rating {
+        margin-top: 20px;
+        ion-icon {
+            font-size: 25px;
+            // color: color($colors, mealgreen);
+        }
+    }
+
+    .recBox{
+        .rating {
+        margin-top: 0px;
+        ion-icon {
+            font-size: 20px;
+            // color: color($colors, mealgreen);
+        }
+    }
+    }
+}

@@ -1,0 +1,36 @@
+<ion-header>
+
+    <ion-navbar color="dark">
+        <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+        <ion-title>Wallet</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+    <div text-center>
+        <h2>Balance: ₦{{balance}}</h2>
+        <img style="width: 40%" src="assets/wallet.png" />
+    </div>
+
+    <div style="height: 50px;"></div>
+
+    <div padding-horizontal>
+        <ion-label style="color: white">Top up your wallet</ion-label>
+        <ion-item>
+            <ion-input type="number" [(ngModel)]="amount" placeholder="Amount"></ion-input>
+        </ion-item>
+
+       <div style="height: 10px;"></div>        
+
+        <div text-center>
+            <ion-spinner *ngIf="loading" ></ion-spinner>
+            <button ion-button round color="mealgreen" *ngIf="!loading"  (click)="topUp()">Top Up</button>
+        </div>
+    </div>
+
+</ion-content>

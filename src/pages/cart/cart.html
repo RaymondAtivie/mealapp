@@ -1,0 +1,93 @@
+<ion-header>
+
+    <ion-navbar color="mealgreen">
+        <button ion-button menuToggle>
+          <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Cart</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="dismiss()">
+              <ion-icon name="ios-arrow-down"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+    <ion-list>
+        <ion-item *ngIf="totalPrice < 1">
+            The cart is empty
+        </ion-item>
+        <ion-item *ngFor="let item of cartList">
+            <ion-row>
+                <ion-col width-10><b>{{item.quantity}}</b>x</ion-col>
+                <ion-col class="foodname">{{item.food.main}} - {{item.name}}</ion-col>
+                <ion-col width-20>
+                    <h2><b>₦{{item.price}}</b></h2>
+                </ion-col>
+            </ion-row>
+
+            <ion-row class="button-row">
+                <ion-col width-20>
+                    <ion-row>
+                        <ion-col>
+                            <button ion-button outline small item-right color="mealgreen" (click)="$event.stopPropagation(); addToCart(item.food)">
+                          <ion-icon name="add"></ion-icon>
+                        </button>
+                        </ion-col>
+                        <ion-col>
+                            <button ion-button outline small item-right color="danger" (click)="$event.stopPropagation(); removeFromCart(item.food)">
+                          <ion-icon name="remove" *ngIf="item.quantity > 1" ></ion-icon>
+                          <ion-icon name="close"*ngIf="item.quantity < 2"></ion-icon>
+                        </button>
+                        </ion-col>
+                    </ion-row>
+                </ion-col>
+            </ion-row>
+        </ion-item>
+
+        <div *ngIf="totalPrice > 0">
+            <ion-item color="light" *ngIf="company_pay > 0">
+                <h2>Total</h2>
+                <div item-right>
+                    <b>₦{{totalPrice}}</b>
+                </div>
+            </ion-item>
+            <ion-item color="light" *ngIf="company_pay > 0">
+                <h2>Company Subsidy</h2>
+                <div item-right>
+                    <b color="danger">-₦{{company_pay}}</b>
+                </div>
+            </ion-item>
+            <ion-item color="light">
+                <h1>Total Due</h1>
+                <div item-right>
+                    <h2><b>₦{{getPayable()}}</b></h2>
+                </div>
+            </ion-item>
+        </div>
+    </ion-list>
+
+    <div class="divider" style="height: 100px"></div>
+
+    <ion-fab bottom right edge>
+        <button ion-fab color="danger" (click)="dismiss()">
+          {{cartquantity}}<ion-icon name="ios-arrow-down"></ion-icon>
+        </button>
+    </ion-fab>
+</ion-content>
+
+<ion-footer>
+
+    <ion-toolbar>
+        <div>
+            <button ion-button large block color="mealgreen" *ngIf="totalPrice > 0" (click)="presentCheckout()">
+              Checkout
+            </button>
+        </div>
+    </ion-toolbar>
+
+</ion-footer>

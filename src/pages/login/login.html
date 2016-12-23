@@ -1,0 +1,51 @@
+<ion-header no-border>    
+    <ion-navbar color="transparent">
+        <ion-title></ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content fullscreen padding text-center>
+
+    <div style="height: 70px"></div>
+
+    <img src="assets/longlogo.png" style="width: 80%" />
+
+    <ion-list>
+
+        <ion-item>
+            <ion-label floating>Email</ion-label>
+            <ion-input [(ngModel)]="user.email" type="emai"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label floating>Password</ion-label>
+            <ion-input [(ngModel)]="user.password" type="password"></ion-input>
+        </ion-item>
+
+    </ion-list>
+
+    <div style="height: 15px"></div>
+    
+    <div class="error-box">
+        <ion-spinner *ngIf="spinner" ></ion-spinner>
+        <!--<div class="errorMsg" *ngIf="errorMessage" ><b>{{errorMessage}}</b></div>-->
+    </div>
+    
+    <div style="height: 15px"></div>
+
+    <ion-row text-center>
+        <ion-col width-80 offset-10>
+            <button ion-button block round color="mealgreen" (click)="login()">Login</button>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col width-80 offset-10>
+            <button ion-button block clear color="mealgreen" (click)="gotoSignup()">No account? Sign up</button>
+        </ion-col>
+    </ion-row>
+
+    <ion-row>
+        <ion-col width-80 offset-10>
+            <button ion-button block clear color="light" (click)="gotoForgot()">Forgot password?</button>
+        </ion-col>
+    </ion-row>
+</ion-content>

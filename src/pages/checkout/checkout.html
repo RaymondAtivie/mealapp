@@ -1,0 +1,32 @@
+<ion-content padding>
+    <div class="content-box">
+        <ion-toolbar>
+            <ion-title>Checkout</ion-title>
+            <ion-buttons end>
+                <button ion-button icon-only (click)="dismiss()">
+                  <ion-icon name="close"></ion-icon>
+                </button>
+            </ion-buttons>
+        </ion-toolbar>
+
+        <div class="box-content">
+            <div>Total: ₦{{total}}</div>
+            <div>Company Subsidy: ₦{{company_pay}}</div>
+            <h3>Total Due: ₦{{payable}}</h3>
+
+            <div class="buttons-box">
+                <ion-spinner *ngIf="loading" ></ion-spinner>
+                <div *ngIf="payable > 0 && !loading">
+                    <button ion-button round block color="mealgreen" (click)="payOnline()">Pay with card</button>
+                    <button ion-button round block color="mealgreen" (click)="payWithWallet()">Pay with wallet</button>
+                </div>
+                <div *ngIf="payable < 1 && !loading">
+                    <button ion-button round block color="mealgreen" (click)="placeOrder()">Place Order</button>
+                </div>
+                <br />
+                <button ion-button round block clear color="dark" (click)="dismiss()">cancel</button>
+            </div>
+        </div>
+    </div>
+
+</ion-content>

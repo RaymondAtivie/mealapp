@@ -1,0 +1,96 @@
+<ion-header>
+
+    <ion-navbar color="dark">
+        <ion-title>#MM{{order.batch}}</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+    <ion-list>
+        <ion-item>
+            <ion-row>
+                <ion-col width-33><small><b>Delivery Date</b></small></ion-col>
+                <ion-col width-67>
+                    {{order.date | date:medium}}
+                </ion-col>
+            </ion-row>
+        </ion-item>
+        <ion-item>
+            <ion-row>
+                <ion-col width-33><small><b>Total Price</b></small></ion-col>
+                <ion-col width-67>
+                    {{order.total_price}}
+                </ion-col>
+            </ion-row>
+        </ion-item>
+        <ion-item>
+            <ion-row>
+                <ion-col width-33><small><b>Company Paid</b></small></ion-col>
+                <ion-col width-67>
+                    <span *ngIf="order.company_paid < order.total_price">{{order.company_paid}}</span>
+                    <span *ngIf="order.company_paid >= order.total_price">{{order.total_price}}</span>
+                </ion-col>
+            </ion-row>
+        </ion-item>
+        <ion-item>
+            <ion-row>
+                <ion-col width-33><small><b>Total Paid</b></small></ion-col>
+                <ion-col width-67>
+                    {{order.paid}}
+                </ion-col>
+            </ion-row>
+        </ion-item>
+
+        <ion-item>
+            <ion-row>
+                <ion-col width-33><small><b>Payment Method</b></small></ion-col>
+                <ion-col width-67>
+                    {{order.payment_method}}
+                </ion-col>
+            </ion-row>
+        </ion-item>
+        <ion-item>
+            <ion-row>
+                <ion-col width-33><small><b>Refcode Used</b></small></ion-col>
+                <ion-col width-67>
+                    {{order.refcodeused}}
+                </ion-col>
+            </ion-row>
+        </ion-item>
+
+        <ion-item>
+            <ion-row>
+                <ion-col width-33><small><b>Order Date</b></small></ion-col>
+                <ion-col width-67>
+                    {{order.created_at | date:medium}} {{order.created_at | date:'jm'}}
+                </ion-col>
+            </ion-row>
+        </ion-item>
+    </ion-list>
+
+    <div padding>
+        <ion-row>
+            <ion-col>
+                <h1>Meals</h1>
+            </ion-col>
+            <ion-col text-right *ngIf="order.rated == '0'" >
+                <button ion-button small round (click)="showRate()">Rate these meals</button>
+            </ion-col>
+        </ion-row>
+    </div>
+
+    <ion-list>
+        <div *ngFor="let food of order.foods">
+            <ion-item>
+                <ion-thumbnail item-left>
+                    <img src="{{food.food.colorcode}}">
+                </ion-thumbnail>
+                <h3><b>{{food.quantity}}x</b> - {{food.foodname}}</h3>
+                <h3><b>₦{{food.food.price}}</b></h3>
+            </ion-item>
+        </div>
+    </ion-list>
+
+</ion-content>

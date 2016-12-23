@@ -1,0 +1,18 @@
+page-refer {
+    ion-content{
+        background: url('../assets/backpattern.png');
+        background-size: cover;
+        background-color: #454444 !important;
+        
+        .shareBox{
+            margin-top: 30%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 30px 10px;
+            border-radius: 15px; 
+            h1{
+                color: color($colors, mealgreen)
+            }
+        }
+    }
+}
