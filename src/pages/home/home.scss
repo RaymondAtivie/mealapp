@@ -15,6 +15,7 @@ page-home {
             background-color: rgba(0, 0, 0, 0.5) !important;
         }
         .logoImage {
+            position: fixed;
             padding-top: 40px;
             text-align: center;
             img {
@@ -25,9 +26,9 @@ page-home {
         .titleBox {
             color: white;
             padding-left: 20px;
-            padding-top: 30%;
-            bottom: 0px;
-            position: relative;
+            // padding-top: 30%;
+            position: fixed;
+            bottom: 140px;
             .mainBox {
                 font-size: 50px;
             }

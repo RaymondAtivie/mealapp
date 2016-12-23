@@ -1,7 +1,12 @@
 <ion-header no-border>
 
     <ion-navbar color="transparent">
-        <ion-title>{{food.main}} - {{food.name}}</ion-title>
+        <!--<ion-title>{{food.main}} - {{food.name}}</ion-title>-->
+        <ion-buttons right>
+            <button ion-button (click)="presentCart()">
+            {{cartquantity}}<ion-icon name="cart"></ion-icon>
+            </button>
+        </ion-buttons>
     </ion-navbar>
 
 </ion-header>
@@ -13,37 +18,47 @@
     </div>
 
     <div padding *ngIf="food != {}">
-        <h3>{{food.name}}</h3>
-        <div>{{food.main}}
-            <span *ngIf="food.ingredients"> - </span> {{food.ingredients}}
-        </div>
-        <h3><b>₦{{food.price}}</b></h3>
-        <div class="rating">
-            <span *ngFor="let item of [1,2,3,4,5]">
-                <ion-icon name="ios-star" [color]="getStarColor(item)"></ion-icon>
-            </span>
-            <br />
-            <small>(from {{food.rating.total}} ratings)</small>
-        </div>
-        <br />
-        <div>Vendor: {{food.vendor.name}}</div>
-
-        <div>
+        <div padding-horizontal class="contentBox">
+            <h3>{{food.name}}</h3>
             <ion-row>
-                <ion-col width-20>
-                    <button ion-button block outline icon-only color="secondary" (click)="addQuantity()">
-                        <ion-icon name="add"></ion-icon>
-                    </button>
+                <ion-col class="detailBox">
+                    <div>Vendor: {{food.vendor.name}}</div>
+                    <div *ngIf="food.calories">Calories: {{food.calories}}</div>
                 </ion-col>
-                <ion-col width-10>
-                    <h2>{{quantity}}</h2>
-                </ion-col>
-                <ion-col width-20>
-                    <button ion-button block icon-only outline color="danger" (click)="removeQuantity()" [disabled]="quantity < 2">
-                        <ion-icon name="remove"></ion-icon>
-                    </button>
+                <ion-col width-33 class="priceText">
+                    ₦{{food.price}}
                 </ion-col>
             </ion-row>
+            <div class="rating">
+                <span *ngFor="let item of [1,2,3,4,5]">
+                    <ion-icon name="ios-star" [color]="getStarColor(item)"></ion-icon>
+                </span>
+                <br />
+                <small>(from {{food.rating.total}} ratings)</small>
+            </div>
+
+            <div>
+                <ion-row>
+                    <ion-col text-right>
+                        <button ion-button small clear color="dark" (click)="addQuantity()">
+                            Quantity: 
+                        </button>
+                        <button ion-button small outline icon-only color="dark" (click)="addQuantity()">
+                            <ion-icon name="add"></ion-icon>
+                        </button>
+                        <button ion-button small outline color="dark">
+                            {{quantity}}
+                        </button>
+                        <button ion-button small icon-only outline color="dark" (click)="removeQuantity()" [disabled]="quantity < 2">
+                            <ion-icon name="remove"></ion-icon>
+                        </button>
+                    </ion-col>
+                </ion-row>
+            </div>
+
+            <div *ngIf="food.ingredients" >
+                <p>{{food.main}} - {{food.ingredients}}</p>
+            </div>
         </div>
     </div>
 
@@ -69,13 +84,7 @@
 </ion-content>
 
 <ion-footer>
-    <ion-toolbar>
-        <ion-row>
-            <ion-col></ion-col>
-            <ion-col width-50 text-center>
-                <button ion-button block color="mealgreen" (click)="addToCart()">Add to cart ₦{{food.price}}</button>
-            </ion-col>
-            <ion-col></ion-col>
-        </ion-row>
+    <ion-toolbar color="mealgreen" text-center>
+        <button ion-button block clear color="whitelight" (click)="addToCart()">Add to cart ₦{{food.price}}</button>
     </ion-toolbar>
 </ion-footer>

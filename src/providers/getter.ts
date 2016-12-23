@@ -49,23 +49,23 @@ export class GetterService {
     if (this.meals) {
       console.log("getting from property");
       return Promise.resolve(this.meals);
-    }else{
-      return Promise.resolve(false);
+    // }else{
+    //   return Promise.resolve(false);
     }
-    // return new Promise(resolve => {
-    //   this.storage.get("meals")
-    //     .then(m => {
-    //       console.log("getting meals from storage");
-    //       console.log(m);
-    //       if (m) {
-    //         this.meals = m;
-    //         resolve(m);
-    //       } else {
-    //         console.log("no meals in property or storage");
-    //         resolve(false);
-    //       }
-    //     });
-    // });
+    return new Promise(resolve => {
+      this.storage.get("meals")
+        .then(m => {
+          console.log("getting meals from storage");
+          console.log(m);
+          if (m) {
+            this.meals = m;
+            resolve(m);
+          } else {
+            console.log("no meals in property or storage");
+            resolve(false);
+          }
+        });
+    });
   }
 
   getMeals(office_id?) {

@@ -1,14 +1,15 @@
 page-foodlist {
     ion-content {
-        // margin-top: -112px;
+        background: url('../assets/home.jpg') no-repeat top center;
+        background-size: contain;
+        background-color: #454444 !important;
         .headerImg {
-            background: url("../assets/home.jpg") no-repeat center center;
+            background-color: transparent;
+            // background: url("../assets/home.jpg") no-repeat center center;
             background-size: cover;
-            height: 150px;
+            height: 120px;
             width: 100%;
         }
-        background: url('../assets/backpattern.png');
-        background-size: cover;
         .meal-box {
             margin-bottom: 100px;
         }
@@ -18,15 +19,21 @@ page-foodlist {
                 // color: color($colors, mealgreen)
             }
         }
-        .priceText{
+        .priceText {
             color: color($colors, mealgreen);
             font-size: 20px;
         }
-        .extra{
-            font-size: smaller;
+        .extra {
+            font-size: 12px;
         }
-        .mainName{
-            font-weight: bold;
+        .mainName {
+            font-size: 16px;
+        }
+        #sticky.stick {
+            position: fixed;
+            top: 56px;
+            z-index: 10000;
+            // border-radius: 0 0 0.5em 0.5em;
         }
     }
 }

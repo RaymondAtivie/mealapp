@@ -97,13 +97,13 @@ export class CartService {
 
   addToCart(item, quant?) {
     if(!quant){
-      let quant = 1;
+      quant = 1;
     }
     var option = {
       id: item.id,
       mainmeal: item.main,
       name: item.name,
-      price: Number.parseInt(item.price),
+      price: Number.parseInt(item.price) * Number.parseInt(quant),
       quantity: Number.parseInt(quant),
       food: item
     }

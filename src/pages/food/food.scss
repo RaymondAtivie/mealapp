@@ -7,10 +7,19 @@ page-food {
         width: 100%;
         margin-top: -56px;
     }
+    .contentBox{
+        padding-right: 20px;
+        padding-left: 20px;
+        .priceText{
+            color: color($colors, mealgreen);
+            font-size: 30px;
+        }
+    }
     .rating {
-        margin-top: 20px;
+        margin-top: 5px;
         ion-icon {
             font-size: 25px;
+            margin-right: 5px;
             // color: color($colors, mealgreen);
         }
     }

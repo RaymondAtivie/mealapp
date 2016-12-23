@@ -3,9 +3,17 @@ page-cart {
         background: url('../assets/backpattern.png');
         background-size: cover;
         // padding-bottom: 200px;
-
-        .foodname{
+        .foodname {
             font-size: 14px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+        .extraBox {
+            font-size: 10px;
+        }
+        .priceText {
+            color: color($colors, mealgreen);
+            font-size: 30px;
         }
     }
     .button-row {

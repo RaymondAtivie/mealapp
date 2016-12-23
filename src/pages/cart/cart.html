@@ -23,28 +23,33 @@
         </ion-item>
         <ion-item *ngFor="let item of cartList">
             <ion-row>
-                <ion-col width-10><b>{{item.quantity}}</b>x</ion-col>
-                <ion-col class="foodname">{{item.food.main}} - {{item.name}}</ion-col>
-                <ion-col width-20>
-                    <h2><b>₦{{item.price}}</b></h2>
+                <ion-col width-67>
+                    <div class="foodname">{{item.name}}</div>
+                    <div class="extraBox">
+                    <div>Vendor: {{item.food.vendor.name}}</div>
+                    <div *ngIf="item.food.calories">Calories: {{item.food.calories}}</div>
+                    </div>
+                </ion-col>
+                <ion-col text-right>
+                    <div class="priceText">₦{{item.price}}</div>
                 </ion-col>
             </ion-row>
 
             <ion-row class="button-row">
-                <ion-col width-20>
-                    <ion-row>
-                        <ion-col>
-                            <button ion-button outline small item-right color="mealgreen" (click)="$event.stopPropagation(); addToCart(item.food)">
-                          <ion-icon name="add"></ion-icon>
-                        </button>
-                        </ion-col>
-                        <ion-col>
-                            <button ion-button outline small item-right color="danger" (click)="$event.stopPropagation(); removeFromCart(item.food)">
-                          <ion-icon name="remove" *ngIf="item.quantity > 1" ></ion-icon>
-                          <ion-icon name="close"*ngIf="item.quantity < 2"></ion-icon>
-                        </button>
-                        </ion-col>
-                    </ion-row>
+                <ion-col text-right>
+                    <button ion-button clear small color="dark" (click)="addToCart(item.food, 1)">
+                        Quantity
+                    </button>
+                    <button ion-button outline small color="dark" (click)="addToCart(item.food, 1)">
+                        <ion-icon name="add"></ion-icon>
+                    </button>
+                    <button ion-button outline small color="dark">
+                        {{item.quantity}}
+                    </button>
+                    <button ion-button outline small color="dark" (click)="removeFromCart(item.food)">
+                        <ion-icon name="remove" *ngIf="item.quantity > 1" ></ion-icon>
+                        <ion-icon name="close"*ngIf="item.quantity < 2"></ion-icon>
+                    </button>
                 </ion-col>
             </ion-row>
         </ion-item>
@@ -82,12 +87,10 @@
 
 <ion-footer>
 
-    <ion-toolbar>
-        <div>
-            <button ion-button large block color="mealgreen" *ngIf="totalPrice > 0" (click)="presentCheckout()">
+    <ion-toolbar color="mealgreen" (click)="presentCheckout()">
+        <button ion-button clear block color="whitelight" *ngIf="totalPrice > 0">
               Checkout
             </button>
-        </div>
     </ion-toolbar>
 
 </ion-footer>
