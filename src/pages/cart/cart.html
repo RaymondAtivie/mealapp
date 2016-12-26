@@ -24,7 +24,7 @@
         <ion-item *ngFor="let item of cartList">
             <ion-row>
                 <ion-col width-67>
-                    <div class="foodname">{{item.name}}</div>
+                    <div class="foodname" (click)="gotoFood(item.food)">{{item.name}}</div>
                     <div class="extraBox">
                     <div>Vendor: {{item.food.vendor.name}}</div>
                     <div *ngIf="item.food.calories">Calories: {{item.food.calories}}</div>
@@ -64,7 +64,7 @@
             <ion-item color="light" *ngIf="company_pay > 0">
                 <h2>Company Subsidy</h2>
                 <div item-right>
-                    <b color="danger">-₦{{company_pay}}</b>
+                    <b ion-text color="danger">-₦{{company_pay}}</b>
                 </div>
             </ion-item>
             <ion-item color="light">

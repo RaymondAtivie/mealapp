@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { ViewController, ModalController, Events } from 'ionic-angular';
+import { ViewController, NavController, ModalController, Events } from 'ionic-angular';
 
 import { CheckoutPage } from '../checkout/checkout';
 
+import { FoodPage } from '../food/food';
 import { GetterService } from '../../providers/getter';
 import { CartService } from '../../providers/cart';
 import { UserService } from '../../providers/user';
@@ -20,6 +21,7 @@ export class CartPage {
 
   constructor(
     public viewCtrl: ViewController,
+    public navCtrl: NavController,
     public modalCtrl: ModalController,
     public getter: GetterService,
     public cart: CartService,
@@ -37,13 +39,18 @@ export class CartPage {
     this.getPayable();
 
     this.events.subscribe("order:placed", () => {
-      this.cartList = [];      
+      this.cartList = [];
       this.totalPrice = 0;
       this.payable = 0;
       this.dismiss();
       console.log("close");
     });
   }
+
+  gotoFood(food) {
+    this.navCtrl.push(FoodPage, { food:food });
+  }
+
 
   getPayable() {
     if (this.totalPrice > this.company_pay) {

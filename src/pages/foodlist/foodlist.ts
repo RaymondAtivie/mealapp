@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController, ModalController, MenuController, Events, Content } from 'ionic-angular';
 
 import { CartPage } from '../cart/cart';
@@ -18,7 +18,10 @@ import jQuery from "jquery";
 export class FoodlistPage {
 
   @ViewChild(Content) content: Content;
+  // @ViewChild(foodList) foodContent; 
 
+  stickyTop:boolean = false;
+  headerClass: any = "imageFood";
   tabToolClass: any = 'none';
   meal: string;
   cartquantity: number;
@@ -26,6 +29,7 @@ export class FoodlistPage {
   cartColor: string = "primary";
   foods: any = [];
   drinks: any = [];
+  ionScroll;
 
   constructor(
     public navCtrl: NavController,
@@ -35,6 +39,7 @@ export class FoodlistPage {
     public cart: CartService,
     public USER: UserService,
     public events: Events,
+    public myElement: ElementRef
   ) {
     this.menuCtrl.swipeEnable(true);
     this.meal = "food";
@@ -43,22 +48,39 @@ export class FoodlistPage {
     this.events.subscribe('cart:add', (cartnum) => {
       this.cartquantity = cartnum;
     });
-
-    setInterval(() => {
-    // jQuery(window).scroll(this.sticky_relocate());
-      this.sticky_relocate();
-    }, 1);
-
   }
 
+  ngOnInit() {
+    // Ionic scroll element
 
-  con() {
-    console.log(99);
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad FoodlistPage');
+    this.ionScroll = this.myElement.nativeElement.children[1].children[1];
+    console.log(this.ionScroll);
+    this.ionScroll.addEventListener("scroll", () => {
+      this.sticky_relocate();
+    });
   }
+
+  // ngDoCheck(){
+  //   this.get
+  // }
+
+  selectedTab(text) {
+    console.log(text);
+    if (text == 'drinks') {
+      this.headerClass = "imageDrinks";
+    } else {
+      this.headerClass = "imageFood";
+    }
+  }
+
+  // getheaderClass() {
+  //   console.log("Header class: "+this.headerClass);
+  //   return this.headerClass;
+  // }
 
   loadMeals() {
     console.log("getting meals");
@@ -103,13 +125,18 @@ export class FoodlistPage {
   }
 
   sticky_relocate() {
-    var window_top = jQuery(window).scrollTop() + 56;
+    var window_top = jQuery(window).scrollTop() + 112;
     var div_top = jQuery('#sticky-anchor').offset().top;
+    // let div_top = document.getElementById("#sticky-anchor").offsetTop;
 
     if (window_top > div_top) {
-      jQuery('#sticky').addClass('stick');
+      jQuery('.sticky').addClass('stick');
+      this.stickyTop = true;
+      console.log(this.stickyTop);
     } else {
-      jQuery('#sticky').removeClass('stick');
+      jQuery('.sticky').removeClass('stick');
+      this.stickyTop = false;
+      console.log(this.stickyTop);
     }
   }
 

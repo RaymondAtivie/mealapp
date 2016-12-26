@@ -24,7 +24,7 @@ export class CartService {
       this.destroyCart();      
     });
   }
-
+  
   getContent() {
     return new Promise(resolve => {
       if (!this.cart) {

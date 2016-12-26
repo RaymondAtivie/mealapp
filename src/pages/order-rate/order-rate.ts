@@ -13,6 +13,7 @@ export class OrderRatePage {
   order: any = {};
   title: string = "Rate these meals";
   ratings: any = {};
+  comments: any = [];
 
   constructor(
     public navCtrl: NavController,
@@ -68,6 +69,16 @@ export class OrderRatePage {
 
     this.showToast("Thank you! For rating these meals");
     this.dismiss();
+  }
+
+  addComment(foodid){
+    this.comments.push(foodid);
+  }
+  showComment(foodid){
+    if(this.comments.indexOf(foodid) !== -1) {
+      return true;
+    }
+    return false;
   }
 
   showToast(message) {

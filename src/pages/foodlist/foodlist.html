@@ -6,26 +6,40 @@
         </button>
         <ion-title></ion-title>
         <ion-buttons right>
-            <button ion-button (click)="presentCart()">
+            <button ion-button icon-only (click)="presentCart()">
             {{cartquantity}}<ion-icon name="cart"></ion-icon>
             </button>
         </ion-buttons>
     </ion-navbar>
+    
+    <ion-toolbar color="transparent" class="sticky">
+        <ion-segment [(ngModel)]="meal" color="greenmeal" [hidden]="!stickyTop">
+            <ion-segment-button value="food" (click)="selectedTab('food')">
+                Food
+            </ion-segment-button>
+            <ion-segment-button value="drinks" (click)="selectedTab('drinks')">
+                Drinks
+            </ion-segment-button>
+            <!--<ion-segment-button value="snacks">
+                Snacks
+            </ion-segment-button>-->
+        </ion-segment>
+    </ion-toolbar>
 
 
 </ion-header>
 
 
-<ion-content id="listID">
+<ion-content id="listID" #foodList [ngClass]="headerClass">
     <div class="headerImg"></div>
 
     <div id="sticky-anchor"></div>
-    <ion-toolbar color="dark" id="sticky">
+    <ion-toolbar color="transparent" class="sticky" *ngIf="!stickyTop" >
         <ion-segment [(ngModel)]="meal" color="greenmeal">
-            <ion-segment-button value="food">
+            <ion-segment-button value="food" (click)="selectedTab('food')">
                 Food
             </ion-segment-button>
-            <ion-segment-button value="drinks">
+            <ion-segment-button value="drinks" (click)="selectedTab('drinks')">
                 Drinks
             </ion-segment-button>
             <!--<ion-segment-button value="snacks">
@@ -50,7 +64,7 @@
                     <small *ngIf="food.calories" class="extra"> <br />Calories: {{food.calories}}</small>
                     <div class="rating">
                         <span *ngFor="let item of [1,2,3,4,5]">
-                            <ion-icon name="ios-star-outline" [color]="getStarColor(food.rating.rating, item)" ></ion-icon>
+                            <ion-icon name="ios-star" [color]="getStarColor(food.rating.rating, item)" ></ion-icon>
                         </span>
                     </div>
                     <div class="priceText">₦{{food.price}}</div>
@@ -75,7 +89,7 @@
                     <small *ngIf="drink.calories" class="extra"><br />Calories: {{drink.calories}}</small>
                     <div class="rating">
                         <span *ngFor="let item of [1,2,3,4,5]">
-                            <ion-icon name="ios-star-outline" [color]="getStarColor(drink.rating.rating, item)" ></ion-icon>
+                            <ion-icon name="ios-star" [color]="getStarColor(drink.rating.rating, item)" ></ion-icon>
                         </span>
                     </div>
                     <div class="priceText">₦{{drink.price}}</div>

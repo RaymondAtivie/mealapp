@@ -3,17 +3,22 @@
         <h1>{{title}}</h1>
 
         <ion-list>
-            <ion-item *ngFor="let food of order.foods">
-                <ion-thumbnail item-left>
-                    <img src="{{food.food.colorcode}}">
-                </ion-thumbnail>
-                <h3>{{food.foodname}}</h3>
-                <div class="ratingBox">
-                    <ion-icon name="ios-star" *ngFor="let num of [1,2,3,4,5]" [color]="getStarColor(food.id, num)" (click)="setRating(food.id, num)"></ion-icon>
-                    <br />
-                    <small color="primary" (click)="addComment(food.id)">add a comment</small>
-                </div>
-            </ion-item>
+            <div *ngFor="let food of order.foods">
+                <ion-item>
+                    <ion-thumbnail item-left>
+                        <img src="{{food.food.colorcode}}">
+                    </ion-thumbnail>
+                    <h3>{{food.foodname}}</h3>
+                    <div class="ratingBox">
+                        <ion-icon name="ios-star" *ngFor="let num of [1,2,3,4,5]" [color]="getStarColor(food.id, num)" (click)="setRating(food.id, num)"></ion-icon>
+                        <br />
+                        <small color="primary" *ngIf="!showComment(food.id)" (click)="addComment(food.id)">add a comment</small>
+                    </div>
+                </ion-item>
+                <ion-item *ngIf="showComment(food.id)" >
+                    <ion-textarea placeholder="comment"></ion-textarea>
+                </ion-item>
+            </div>
         </ion-list>
 
         <div class="buttons">
@@ -22,7 +27,7 @@
         </div>
 
         <div style="height: 20px;"></div>
-        
+
         <!--<div>
             <ion-item>
                 <ion-label>Don't ask me again</ion-label>

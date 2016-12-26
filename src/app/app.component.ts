@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, ModalController, ToastController, Events } from 'ionic-angular';
+import { Nav, Platform, ModalController, ToastController, AlertController, Events } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { Push, PushToken, Deploy } from '@ionic/cloud-angular';
@@ -32,6 +32,7 @@ export class MyApp {
     public platform: Platform,
     public modalCtrl: ModalController,
     public toastCtrl: ToastController,
+    public alertCtrl: AlertController,
     public USER: UserService,
     public events: Events,
     public getter: GetterService,
@@ -49,7 +50,7 @@ export class MyApp {
     this.pages = [
       // { title: 'Home', component: HomePage },
       { title: 'Meal List', component: FoodlistPage },
-      { title: 'My Cart', component: CartPage, modal: false, badge: 1 },
+      { title: 'My Cart', component: CartPage, modal: true, badge: 1 },
       { title: 'Order History', component: HistoryPage },
       { title: 'Get Free Food', component: ReferPage },
       { title: 'Wallet', component: WalletPage }
@@ -126,7 +127,8 @@ export class MyApp {
     if (!page.modal) {
       this.nav.setRoot(page.component);
     } else {
-      this.modalCtrl.create(page.component).present();
+      this.nav.push(page.component);
+      // this.modalCtrl.create(page.component).present();
     }
   }
   showToast(message) {
@@ -139,6 +141,7 @@ export class MyApp {
   }
 
   logout() {
+    console.log("actual logout");
     this.getter.removeMeals();
     this.cart.destroyCart();
     this.USER.destroyUser()
@@ -148,5 +151,29 @@ export class MyApp {
             this.push.unregister();
           });
       })
+  }
+
+  confirmLogout() {
+    console.log("confirm logout");
+    let alert = this.alertCtrl.create({
+      title: 'Logout',
+      message: 'Are you sure you want to logout?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            this.logout();
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 }

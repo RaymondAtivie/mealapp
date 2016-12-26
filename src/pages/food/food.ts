@@ -36,7 +36,7 @@ export class FoodPage {
   }
 
   presentCart() {
-    this.modalCtrl.create(CartPage).present();
+    this.navCtrl.push(CartPage);
     console.log("Poping cart");
   }
 
