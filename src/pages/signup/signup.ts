@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { NavController, ToastController, NavParams, Events } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { NavController, ToastController, AlertController, NavParams, Events } from 'ionic-angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { LoginPage } from "../login/login";
 import { GetterService } from "../../providers/getter";
@@ -12,29 +13,165 @@ import { UserService } from "../../providers/user";
 })
 export class SignupPage {
 
+  @ViewChild('signupSlider') signupSlider: any;
+
+  signForm: FormGroup;
+
+  submitAttempt: boolean = false;
+
   companies: any = [];
+  comps: any = [];
   user: any = {};
   loading: boolean = false;
+  stage: number = 2;
+  locations = [];
+  workplaceload = false;
+  showWorkForm = false;
 
   constructor(
     public navCtrl: NavController,
     public toastCtrl: ToastController,
+    public alertCtrl: AlertController,
     public getter: GetterService,
     public setter: SetterService,
     public USER: UserService,
     public events: Events,
-    public navParams: NavParams
+    public navParams: NavParams,
+    public formBuilder: FormBuilder
   ) {
+    this.workplaceload = true;
     this.getter.loadlink("getCompanies")
       .then(result => {
         console.log(result);
+        this.comps = result['companies'];
         this.companies = result['companies'];
         console.log(this.companies);
-      })
+
+        this.workplaceload = false;
+      });
+
+    this.initializeLocation();
+
+    this.signForm = formBuilder.group({
+        firstName: [''],
+        email: [''],
+        phone: [''],
+        officename: [''],
+        officeaddress: [''],
+        password: [''],
+        cpassword: [''],
+    });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SignupPage');
+  }
+
+  initializeLocation() {
+    this.locations = ["Yaba", "Surulere", "Ikeja", "Victoria Island", "Lekki Phase 1", "Ikoyi"];
+  }
+  initializeCompanies() {
+    this.companies = this.comps;
+  }
+
+  searchLocation(ev: any) {
+    // Reset items back to all of the items
+    this.initializeLocation();
+
+    // set val to the value of the searchbar
+    let val = ev.target.value;
+
+    // if the value is an empty string don't filter the items
+    if (val && val.trim() != '') {
+      this.locations = this.locations.filter((item) => {
+        return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+    }
+  }
+
+  chooseLocation(location) {
+    this.user.officeplace = location;
+    this.user.company = "other";
+    this.showWorkForm = true;
+    // this.stage = 3;
+    this.next();
+  }
+
+  searchWorkplace(ev: any) {
+    this.initializeCompanies();
+
+    let val = ev.target.value;
+
+    let cname, clocation, if1, if2;
+    this.companies = this.companies.filter((company) => {
+      cname = company.name;
+      clocation = company.location;
+
+      if1 = cname.toLowerCase().indexOf(val.toLowerCase()) > -1;
+      if2 = clocation.toLowerCase().indexOf(val.toLowerCase()) > -1;
+
+      return if1 || if2;
+    });
+  }
+
+  chooseCompany(company) {
+    this.user.officename = company.name;
+    this.user.officelocation = company.location;
+    this.user.officeaddress = company.address;
+    this.user.company = company.id;
+    this.user.companyselected = true;
+
+    console.log(this.user);
+
+    // this.stage = 3;
+    this.next();
+    
+  }
+
+  noCompany() {
+    this.stage = 1;
+    this.user = {};
+  }
+
+  changeWorkplace(){
+    this.stage = 2;
+    this.prev();
+  }
+
+  showNoLocation() {
+    let alert = this.alertCtrl.create({
+      title: "We don't cover your area yet",
+      message: "We'd let you know when we do",
+      inputs: [
+        {
+          name: 'Email',
+          placeholder: 'Email address',
+          type: 'email'
+        },
+        {
+          name: 'Location',
+          placeholder: 'Location',
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: data => {
+            console.log(data);
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Ok',
+          handler: data => {
+            console.log(data);
+            return true;
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   gotoLogin() {
@@ -82,6 +219,9 @@ export class SignupPage {
       if (!this.user.officename || !this.user.officeaddress || !this.user.officelocation || !this.user.officeplace) {
         this.showToast("Please fill your office details correctly");
         return false;
+      }
+      if (this.user.companyselected) {
+        userreg['officelocation'] = this.user.officelocation;
       }
       userreg['officename'] = this.user.officename;
       userreg['officeaddress'] = this.user.officeaddress;
@@ -144,5 +284,12 @@ export class SignupPage {
     toast.present();
   }
 
+    next(){
+        this.signupSlider.slideNext();
+    }
+ 
+    prev(){
+        this.signupSlider.slidePrev();
+    }
 
 }

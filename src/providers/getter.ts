@@ -34,23 +34,31 @@ export class GetterService {
   }
 
   loadlink(extra) {
-    let link = this.apiLink + "/" + extra;
+    let link = this.apiLink + extra;
 
     return new Promise(resolve => {
       this.http.get(link)
         .map(res => res.json())
         .subscribe(data => {
+          console.log(data);
           resolve(data);
+        }, err => {
+          console.error('ERROR', err);
         });
     });
+  }
+
+  handleError(error) {
+    console.error(error);
+    // return Observable.throw(error.json().error || 'Server error');
   }
 
   checkMeals() {
     if (this.meals) {
       console.log("getting from property");
       return Promise.resolve(this.meals);
-    // }else{
-    //   return Promise.resolve(false);
+      // }else{
+      //   return Promise.resolve(false);
     }
     return new Promise(resolve => {
       this.storage.get("meals")
