@@ -58,7 +58,6 @@ export class FoodlistPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad FoodlistPage');
     this.ionScroll = this.myElement.nativeElement.children[1].children[1];
-    console.log(this.ionScroll);
     this.ionScroll.addEventListener("scroll", () => {
       this.sticky_relocate();
     });

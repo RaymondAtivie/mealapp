@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { NavController, MenuController, ToastController, AlertController, Events } from 'ionic-angular';
-import { InAppBrowser } from 'ionic-native';
+// import { InAppBrowser } from 'ionic-native';
 
 import { SignupPage } from "../signup/signup";
 // import { HomePage } from "../home/home";

@@ -33,6 +33,10 @@ $colors: (
   danger:     #f53d3d,
   light:      #f4f4f4,
   whitelight: #ffffff,
+  darklight: (
+    base:#ffffff,
+    contrast:#000000
+  ),
   dark:       #222,
   transparent:transparent,
   grey:       #454444,

@@ -98,6 +98,7 @@ export class MyApp {
                   });
               });
           }else{
+            document.getElementById("custom-overlay").style.display = "none";   
             this.rootPage = HomePage;
           }
         });
@@ -117,6 +118,7 @@ export class MyApp {
   }
 
   gotoHome() {
+    document.getElementById("custom-overlay").style.display = "none";   
     return this.nav.setRoot(FoodlistPage);
   }
 
