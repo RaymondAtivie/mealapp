@@ -12,6 +12,9 @@ log.txt
 .vscode/
 npm-debug.log*
 
+mealapp.apk
+mealapp-unsigned.apk
+
 .idea/
 .sass-cache/
 .tmp/
