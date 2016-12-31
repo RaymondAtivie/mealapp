@@ -30,7 +30,7 @@ export class SetterService {
           this.data.response = data['_body'];
           resolve(JSON.parse(data['_body']));
         }, error => {
-          resolve("oops");
+          resolve(false);
         });
     });
   }
@@ -54,7 +54,7 @@ export class SetterService {
           console.log(this.authdata);
           resolve(JSON.parse(data['_body']));
         }, error => {
-          resolve("oops");
+          resolve(false);
         });
     });
   }

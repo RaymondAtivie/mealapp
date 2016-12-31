@@ -4,7 +4,7 @@ import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { Push, PushToken, Deploy } from '@ionic/cloud-angular';
 
-import { LoginPage } from '../pages/login/login';
+// import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
 import { CartPage } from '../pages/cart/cart';
 import { FoodlistPage } from '../pages/foodlist/foodlist';
@@ -22,7 +22,7 @@ import { CartService } from "../providers/cart";
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = HomePage;
+  rootPage: any;
   user: any = { data: {}, officedata: {} };
   cartNum: any = 0;
 
@@ -88,7 +88,7 @@ export class MyApp {
             this.USER.getbalance()
               .then(balance => this.user.balance = balance);
 
-            this.gotoHome()
+              this.gotoHome()
               .then(() => {
                 this.push.register()
                   .then((t: PushToken) => {
@@ -97,8 +97,8 @@ export class MyApp {
                     console.log('Token saved:', t.token);
                   });
               });
-
-
+          }else{
+            this.rootPage = HomePage;
           }
         });
 

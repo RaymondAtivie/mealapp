@@ -13,6 +13,7 @@ import { UserService } from '../../providers/user';
 export class HistoryPage {
 
   history: any = [];
+  loading:boolean = false;
 
   constructor(
     public navCtrl: NavController,
@@ -28,12 +29,14 @@ export class HistoryPage {
   }
 
   loadHistory() {
+    this.loading = true;
     let utoken = this.USER.getUser().data.token;
 
     this.getter.loadlink("getallorders?user_token=" + utoken)
       .then(result => {
         console.log(result);
         this.history = result['data'];
+        this.loading = false;
       })
   }
 

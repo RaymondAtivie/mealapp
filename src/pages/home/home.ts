@@ -5,7 +5,7 @@ import { LoginPage } from '../login/login';
 import { SignupPage } from '../signup/signup';
 
 import { GetterService } from '../../providers/getter';
-import { UserService } from '../../providers/user';
+// import { UserService } from '../../providers/user';
 
 @Component({
   selector: 'page-home',
@@ -16,24 +16,31 @@ export class HomePage {
   backclass: any = "back1";
   constructor(
     public navCtrl: NavController,
-    public menuCtrl: MenuController
-    ) { }
+    public menuCtrl: MenuController,
+    public getter: GetterService
+  ) {
+
+    this.getter.loadCompanies().then(companies => {
+      console.log(companies);
+    })
+
+  }
 
   ionViewDidLoad() {
     this.menuCtrl.swipeEnable(false);
-    setInterval(()=>{
-      if(this.backclass == "back1"){
+    setInterval(() => {
+      if (this.backclass == "back1") {
         this.backclass = "back2";
-      }else{
+      } else {
         this.backclass = "back1";
       }
     }, 5000);
   }
 
-  gotoLogin(){
+  gotoLogin() {
     this.navCtrl.push(LoginPage);
   }
-  gotoSignup(){
+  gotoSignup() {
     this.navCtrl.push(SignupPage);
   }
 

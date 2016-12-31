@@ -3,11 +3,11 @@ page-foodlist {
         background-color: #454444 !important;
         background-size: contain;
         &.imageFood {
-            background: url('../assets/backfood.jpg') no-repeat top center;
+            background: url('../assets/backfood.jpg') repeat top center;
             background-size: contain;
         }
         &.imageDrinks {
-            background: url('../assets/backdrink.jpg') no-repeat top center;
+            background: url('../assets/backdrink.jpg') repeat top center;
             background-size: contain;
         }
         .headerImg {
@@ -18,7 +18,7 @@ page-foodlist {
             width: 100%;
         }
         .meal-box {
-            margin-bottom: 100px;
+            // margin-bottom: 100px;
         }
         .rating {
             ion-icon {
@@ -53,5 +53,9 @@ page-foodlist {
             background-color: white;
             color: black;
         }
+    }
+
+    .list-md{
+        margin-bottom: 0px;
     }
 }

@@ -1,6 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController, ToastController, AlertController, NavParams, Events } from 'ionic-angular';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { LoginPage } from "../login/login";
 import { GetterService } from "../../providers/getter";
@@ -12,12 +11,6 @@ import { UserService } from "../../providers/user";
   templateUrl: 'signup.html'
 })
 export class SignupPage {
-
-  @ViewChild('signupSlider') signupSlider: any;
-
-  signForm: FormGroup;
-
-  submitAttempt: boolean = false;
 
   companies: any = [];
   comps: any = [];
@@ -36,31 +29,31 @@ export class SignupPage {
     public setter: SetterService,
     public USER: UserService,
     public events: Events,
-    public navParams: NavParams,
-    public formBuilder: FormBuilder
+    public navParams: NavParams
   ) {
     this.workplaceload = true;
-    this.getter.loadlink("getCompanies")
-      .then(result => {
-        console.log(result);
-        this.comps = result['companies'];
-        this.companies = result['companies'];
-        console.log(this.companies);
+    // this.getter.loadlink("getCompanies")
+    //   .then(result => {
+    //     console.log(result);
+    //     this.comps = result['companies'];
+    //     this.companies = result['companies'];
+    //     console.log(this.companies);
 
-        this.workplaceload = false;
-      });
+    //     this.workplaceload = false;
+    //   });
+
+    this.getter.loadCompanies()
+    .then(companies => {
+      this.comps = companies;
+      this.companies = companies;
+
+      console.log(companies);
+
+      this.workplaceload = false;
+    });
 
     this.initializeLocation();
 
-    this.signForm = formBuilder.group({
-        firstName: [''],
-        email: [''],
-        phone: [''],
-        officename: [''],
-        officeaddress: [''],
-        password: [''],
-        cpassword: [''],
-    });
   }
 
   ionViewDidLoad() {
@@ -93,7 +86,7 @@ export class SignupPage {
     this.user.officeplace = location;
     this.user.company = "other";
     this.showWorkForm = true;
-    // this.stage = 3;
+    this.stage = 3;
     this.next();
   }
 
@@ -123,7 +116,7 @@ export class SignupPage {
 
     console.log(this.user);
 
-    // this.stage = 3;
+    this.stage = 3;
     this.next();
     
   }
@@ -285,11 +278,11 @@ export class SignupPage {
   }
 
     next(){
-        this.signupSlider.slideNext();
+        // this.signupSlider.slideNext();
     }
  
     prev(){
-        this.signupSlider.slidePrev();
+        // this.signupSlider.slidePrev();
     }
 
 }

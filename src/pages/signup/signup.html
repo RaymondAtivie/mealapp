@@ -8,122 +8,114 @@
 
     <img src="assets/longlogo.png" style="width: 80%" />
 
-
-    <ion-slides #signupSlider>
-
-        <ion-slide>
-            <div class="h3" *ngIf="stage == 2">Select your workplace</div>
-            <ion-searchbar *ngIf="stage == 2" (ionInput)="searchWorkplace($event)"></ion-searchbar>
-            <ion-scroll style="height: 500px;" scrollX="true" scrollY="true" *ngIf="stage == 2">
-                <ion-list text-center *ngIf="stage == 2">
-                    <button ion-item text-center *ngFor="let company of companies" (click)="chooseCompany(company)">
+    <div class="h3" *ngIf="stage == 2">Select your workplace</div>
+    <ion-searchbar *ngIf="stage == 2" (ionInput)="searchWorkplace($event)"></ion-searchbar>
+    <ion-scroll style="height: 500px;" scrollX="true" scrollY="true" *ngIf="stage == 2">
+        <ion-list text-center *ngIf="stage == 2">
+            <button ion-item text-center *ngFor="let company of companies" (click)="chooseCompany(company)">
                     {{company.name}}<br />
                     <small>{{company.location}}</small>
                 </button>
-                    <ion-item text-center *ngIf="workplaceload">
-                        Loading workplaces...
-                        <ion-spinner></ion-spinner>
-                    </ion-item>
-                    <button ion-item text-center (click)="noCompany()">
+            <ion-item text-center *ngIf="workplaceload">
+                Loading workplaces...
+                <ion-spinner></ion-spinner>
+            </ion-item>
+            <button ion-item text-center (click)="noCompany()">
                     Not on list?<br />
                     <small>Add your workplace</small>
                 </button>
-                </ion-list>
-            </ion-scroll>
+        </ion-list>
+    </ion-scroll>
 
-            <div class="h3" *ngIf="stage == 1">Workplace Location</div>
-            <ion-searchbar *ngIf="stage == 1" (ionInput)="searchLocation($event)"></ion-searchbar>
-            <ion-list text-center *ngIf="stage == 1">
-                <button ion-item text-center *ngFor="let location of locations" (click)="chooseLocation(location)">
+    <div class="h3" *ngIf="stage == 1">Workplace Location</div>
+    <ion-searchbar *ngIf="stage == 1" (ionInput)="searchLocation($event)"></ion-searchbar>
+    <ion-list text-center *ngIf="stage == 1">
+        <button ion-item text-center *ngFor="let location of locations" (click)="chooseLocation(location)">
             {{location}}
         </button>
-                <button ion-item text-center (click)="showNoLocation()">
+        <button ion-item text-center (click)="showNoLocation()">
             Others
         </button>
-            </ion-list>
-        </ion-slide>
+    </ion-list>
 
-        <ion-slide>
-            <div class="h3">Create an account</div>
-            <ion-scroll style="height: 400px;" scrollX="true" scrollY="true">
-                <ion-list>
-                    <br />
 
-                    <ion-item *ngIf="user.company != 'other'">
-                        {{user.officename}}<br />
-                        <small>{{user.officelocation}}</small><br />
-                        <div text-right>
-                            <button ion-button clear small color="mealgreen" (click)="changeWorkplace()">Change Workplace</button>
-                        </div>
-                    </ion-item>
+    <div *ngIf="stage == 3">
+        <div class="h3">Create an account</div>
+        <ion-list>
+            <br />
 
-                    <div *ngIf="showWorkForm">
-                        <ion-item>
-                            <ion-label floating>Workplace Name</ion-label>
-                            <ion-input [(ngModel)]="user.officename" type="text"></ion-input>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label floating>Workplace Street Name only</ion-label>
-                            <ion-input [(ngModel)]="user.officeaddress" type="text"></ion-input>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label floating>Workplace Full Address</ion-label>
-                            <ion-input [(ngModel)]="user.officelocation" type="text"></ion-input>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label>Workplace Location</ion-label>
-                            <ion-select [(ngModel)]="user.officeplace">
-                                <ion-option *ngFor="let location of locations" value="{{location}}">{{location}}</ion-option>
-                            </ion-select>
-                        </ion-item>
-                    </div>
+            <ion-item *ngIf="user.company != 'other'">
+                {{user.officename}}<br />
+                <small>{{user.officelocation}}</small><br />
+                <div text-right>
+                    <button ion-button clear small color="mealgreen" (click)="changeWorkplace()">Change Workplace</button>
+                </div>
+            </ion-item>
 
-                    <ion-item>
-                        <ion-label floating>Full Name</ion-label>
-                        <ion-input [(ngModel)]="user.firstname" type="text"></ion-input>
-                    </ion-item>
-                    <ion-item>
-                        <ion-label floating>Email</ion-label>
-                        <ion-input [(ngModel)]="user.email" type="email"></ion-input>
-                    </ion-item>
-                    <ion-item>
-                        <ion-label floating>Phone Number</ion-label>
-                        <ion-input [(ngModel)]="user.phoneNo" type="tel"></ion-input>
-                    </ion-item>
-
-                    <ion-item>
-                        <ion-label floating>Password</ion-label>
-                        <ion-input type="password" [(ngModel)]="user.password"></ion-input>
-                    </ion-item>
-
-                    <ion-item>
-                        <ion-label floating>Confirm Password</ion-label>
-                        <ion-input type="password" [(ngModel)]="user.cpassword"></ion-input>
-                    </ion-item>
-
-                    <ion-item>
-                        <ion-label floating>Referral Code (optional*)</ion-label>
-                        <ion-input type="text" [(ngModel)]="user.refcode"></ion-input>
-                    </ion-item>
-
-                    <div style="height: 50px"></div>
-                </ion-list>
-            </ion-scroll>
-
-            <div *ngIf="loading" text-center>
-                <div style="height: 15px"></div>
-                <ion-spinner></ion-spinner>
+            <div *ngIf="showWorkForm">
+                <ion-item>
+                    <ion-label floating>Workplace Name</ion-label>
+                    <ion-input [(ngModel)]="user.officename" type="text"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label floating>Workplace Street Name only</ion-label>
+                    <ion-input [(ngModel)]="user.officeaddress" type="text"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label floating>Workplace Full Address</ion-label>
+                    <ion-input [(ngModel)]="user.officelocation" type="text"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Workplace Location</ion-label>
+                    <ion-select [(ngModel)]="user.officeplace">
+                        <ion-option *ngFor="let location of locations" value="{{location}}">{{location}}</ion-option>
+                    </ion-select>
+                </ion-item>
             </div>
-            <div style="height: 10px"></div>
 
-            <ion-row text-center *ngIf="!loading">
-                <ion-col width-80 offset-10>
-                    <button ion-button block round color="mealgreen" (click)="register()">Signup</button>
-                </ion-col>
-            </ion-row>
-        </ion-slide>
+            <ion-item>
+                <ion-label floating>Full Name</ion-label>
+                <ion-input [(ngModel)]="user.firstname" type="text"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Email</ion-label>
+                <ion-input [(ngModel)]="user.email" type="email"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Phone Number</ion-label>
+                <ion-input [(ngModel)]="user.phoneNo" type="tel"></ion-input>
+            </ion-item>
 
-    </ion-slides>
+            <ion-item>
+                <ion-label floating>Password</ion-label>
+                <ion-input type="password" [(ngModel)]="user.password"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label floating>Confirm Password</ion-label>
+                <ion-input type="password" [(ngModel)]="user.cpassword"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label floating>Referral Code (optional*)</ion-label>
+                <ion-input type="text" [(ngModel)]="user.refcode"></ion-input>
+            </ion-item>
+
+            <div style="height: 50px"></div>
+        </ion-list>
+
+        <div *ngIf="loading" text-center>
+            <div style="height: 15px"></div>
+            <ion-spinner></ion-spinner>
+        </div>
+        <div style="height: 10px"></div>
+
+        <ion-row text-center *ngIf="!loading">
+            <ion-col width-80 offset-10>
+                <button ion-button block round color="mealgreen" (click)="register()">Signup</button>
+            </ion-col>
+        </ion-row>
+    </div>
 
 
     <!--<div class="h3" *ngIf="stage == 2">Select your workplace</div>

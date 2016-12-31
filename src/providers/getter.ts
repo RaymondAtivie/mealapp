@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Storage } from '@ionic/storage';
-import { ModalController } from 'ionic-angular';
+import { ModalController, ToastController } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 
 import { OrderRatePage } from "../pages/order-rate/order-rate";
@@ -11,10 +11,11 @@ export class GetterService {
 
   data: any;
   meals: any;
+  companies: any;
   apiLink: string = "http://mealimeter.herokuapp.com/";
   // apiLink: string = "http://localhost/mealimeter_/index.php/";
 
-  constructor(public http: Http, public storage: Storage, public modalCtrl: ModalController) {
+  constructor(public http: Http, public storage: Storage, public modalCtrl: ModalController, public toastCtrl: ToastController) {
 
   }
 
@@ -44,6 +45,8 @@ export class GetterService {
           resolve(data);
         }, err => {
           console.error('ERROR', err);
+          this.showToast("Check your internet connection.");
+          resolve(false);
         });
     });
   }
@@ -127,5 +130,41 @@ export class GetterService {
         }
       })
   }
+
+  showToast(message) {
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 4000,
+      position: "bottom"
+    });
+    toast.present();
+  }
+
+  loadCompanies() {
+    if(this.companies){
+      return Promise.resolve(this.companies);
+    }
+    return new Promise(resolve => {
+      this.loadlink("getCompanies")
+        .then(result => {
+          console.log(result);
+          if (result) {
+            this.companies = result['companies'];
+            resolve(result['companies']);
+          } else {
+            resolve(false);
+          }
+          // this.comps = result['companies'];
+          // this.companies = result['companies'];
+          // console.log(this.companies);
+
+          // this.workplaceload = false;
+        });
+    });
+  }
+
+  // getCompanies(){
+  //   return this.companies;
+  // }
 
 }

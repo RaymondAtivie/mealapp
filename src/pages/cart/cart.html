@@ -26,8 +26,8 @@
                 <ion-col width-67>
                     <div class="foodname" (click)="gotoFood(item.food)">{{item.name}}</div>
                     <div class="extraBox">
-                    <div>Vendor: {{item.food.vendor.name}}</div>
-                    <div *ngIf="item.food.calories">Calories: {{item.food.calories}}</div>
+                        <div>Vendor: {{item.food.vendor.name}}</div>
+                        <div *ngIf="item.food.calories">Calories: {{item.food.calories}}</div>
                     </div>
                 </ion-col>
                 <ion-col text-right>
@@ -87,10 +87,10 @@
 
 <ion-footer>
 
-    <ion-toolbar color="mealgreen" (click)="presentCheckout()">
-        <button ion-button clear block color="whitelight" *ngIf="totalPrice > 0">
-              Checkout
-            </button>
+    <ion-toolbar color="mealgreen">
+        <button ion-button clear block color="whitelight" *ngIf="totalPrice > 0" (click)="presentCheckout()">
+            Checkout
+        </button>
     </ion-toolbar>
 
 </ion-footer>

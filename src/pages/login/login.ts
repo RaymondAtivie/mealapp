@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { NavController, MenuController, ToastController, Events } from 'ionic-angular';
+import { NavController, MenuController, ToastController, AlertController, Events } from 'ionic-angular';
 import { InAppBrowser } from 'ionic-native';
 
 import { SignupPage } from "../signup/signup";
@@ -24,6 +24,7 @@ export class LoginPage {
     public navCtrl: NavController,
     private menuCtrl: MenuController,
     private toastCtrl: ToastController,
+    private alertCtrl: AlertController,
     private setter: SetterService,
     public storage: Storage,
     public USER: UserService,
@@ -34,8 +35,6 @@ export class LoginPage {
   ionViewDidLoad() {
     this.menuCtrl.swipeEnable(false);
   }
-
-
 
   login() {
 
@@ -63,21 +62,81 @@ export class LoginPage {
   gotoSignup() {
     this.navCtrl.push(SignupPage);
   }
-  gotoForgot() {
-    let browser = new InAppBrowser("http://mealimeter.com/dashboard1/#/reset-password", '_system');
+  gotoForgot(email?) {
+    if(!email){
+      email = ''; 
+    }
+    // new InAppBrowser("http://mealimeter.com/dashboard1/#/reset-password", '_system');
     // this.platform.ready().then(() => {
     // open("http://mealimeter.com/dashboard1/#/reset-password", "_blank", "location=no");
     // });
     // cordova.InAppBrowser.open("http://mealimeter.com/dashboard1/#/reset-password", "_system", "location=true");
+
+    let alert = this.alertCtrl.create({
+      title: 'Reset your password',
+      message: 'Provide your email address',
+      inputs: [
+        {
+          name: 'email',
+          placeholder: 'Email',
+          type: 'email',
+          value: email
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Reset',
+          handler: data => {
+            console.log(data);
+            let t = this.showToastNoTime("Sending reset email....");
+            t.present();
+            this.setter.submit("resetpassword", data)
+              .then(result => {
+                t.dismiss();
+
+                if(result['error'] == false){
+                  this.showToast("Success! A reset password link has been sent to "+data.email);
+                }else{
+                  this.showToast(data.email+" - "+result['description']);
+                  this.gotoForgot(data.email);
+                }
+                console.log(result);
+              })
+            // if (User.isValid(data.username, data.password)) {
+            //   // logged in!
+            // } else {
+            //   // invalid login
+            //   return false;
+            // }
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   showToast(message) {
     let toast = this.toastCtrl.create({
       message: message,
-      duration: 3000,
+      duration: 4500,
       position: "bottom"
     });
     toast.present();
+  }
+
+  showToastNoTime(message) {
+    let toast = this.toastCtrl.create({
+      message: message,
+      position: "bottom"
+    });
+    return toast;
   }
 
 }

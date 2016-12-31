@@ -57,8 +57,12 @@ const cloudSettings: CloudSettings = {
     OrderRatePage
   ],
   imports: [
-    IonicModule.forRoot(MyApp),
-     CloudModule.forRoot(cloudSettings)
+    IonicModule.forRoot(MyApp, {
+            mode: "md"
+            // backButtonText: ' ',
+            // backButtonIcon: 'arrow-round-back',
+        }),
+    CloudModule.forRoot(cloudSettings)
   ],
   bootstrap: [IonicApp],
   entryComponents: [

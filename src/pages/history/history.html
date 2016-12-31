@@ -11,8 +11,11 @@
 
 
 <ion-content>
-    <ion-item text-center *ngIf="history.length < 1" >
+    <ion-item text-center *ngIf="history.length < 1 && !loading" >
         No food ordered yet
+    </ion-item>
+    <ion-item text-center *ngIf="loading" >
+        <ion-spinner></ion-spinner>
     </ion-item>
     <ion-item *ngFor="let order of history" (click)="gotoOrder(order)">
         <h3><b>#MM{{order.batch}}</b> - {{order.date | date:medium}}</h3>
