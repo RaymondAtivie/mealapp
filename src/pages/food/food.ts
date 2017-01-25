@@ -56,6 +56,8 @@ export class FoodPage {
 
     this.cart.addToCart(item, this.quantity);
     this.cartquantity = this.cart.cartNum;
+
+    this.navCtrl.pop();
   }
 
   addQuantity(){
@@ -72,6 +74,10 @@ export class FoodPage {
       return 'mealgreen';
     }
     return 'light';
+  }
+
+  camelCase(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   }
   
 }

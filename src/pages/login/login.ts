@@ -8,6 +8,7 @@ import { SignupPage } from "../signup/signup";
 import { FoodlistPage } from "../foodlist/foodlist";
 
 import { SetterService } from "../../providers/setter";
+import { GetterService } from "../../providers/getter";
 import { UserService } from "../../providers/user";
 
 @Component({
@@ -26,6 +27,7 @@ export class LoginPage {
     private toastCtrl: ToastController,
     private alertCtrl: AlertController,
     private setter: SetterService,
+    private getter: GetterService,
     public storage: Storage,
     public USER: UserService,
     public events: Events,
@@ -50,7 +52,10 @@ export class LoginPage {
           this.spinner = false;
         } else {
           this.events.publish('user:login', e['payload']);
-          this.showToast("Successfully logged in");
+          this.showToast("Successfully logged in")
+            .then(() => {
+              this.getter.showRateMeal(this.USER.getUser().data.token);
+            })
           this.spinner = false;
         }
       });
@@ -63,8 +68,8 @@ export class LoginPage {
     this.navCtrl.push(SignupPage);
   }
   gotoForgot(email?) {
-    if(!email){
-      email = ''; 
+    if (!email) {
+      email = '';
     }
     // new InAppBrowser("http://mealimeter.com/dashboard1/#/reset-password", '_system');
     // this.platform.ready().then(() => {
@@ -101,10 +106,10 @@ export class LoginPage {
               .then(result => {
                 t.dismiss();
 
-                if(result['error'] == false){
-                  this.showToast("Success! A reset password link has been sent to "+data.email);
-                }else{
-                  this.showToast(data.email+" - "+result['description']);
+                if (result['error'] == false) {
+                  this.showToast("Success! A reset password link has been sent to " + data.email);
+                } else {
+                  this.showToast(data.email + " - " + result['description']);
                   this.gotoForgot(data.email);
                 }
                 console.log(result);
@@ -128,7 +133,7 @@ export class LoginPage {
       duration: 4500,
       position: "bottom"
     });
-    toast.present();
+    return toast.present();
   }
 
   showToastNoTime(message) {

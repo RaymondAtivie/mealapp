@@ -1,0 +1,52 @@
+<ion-header>
+
+    <ion-navbar color="dark">
+        <ion-title>Invite Colleagues</ion-title>
+        <ion-buttons right>
+            <button ion-button (click)="dismiss()">
+              No, Thanks
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+    <div text-center>
+        <h3>
+            Invite up to {{maxNum}} colleagues<br /> and get a discount on your order <br /> for every order they make
+        </h3>
+    </div>
+    <ion-list>
+        <ion-item text-center>
+            <ion-spinner color="mealgreen" *ngIf="loading"></ion-spinner>
+        </ion-item>
+        <div *ngFor="let contact of contacts">
+            <button ion-item [disabled]="contact.bought || getInviteStatus(contact.user.id)">
+                <ion-checkbox color="dark" (ionChange)="checkUser(contact.user.id, $event)"></ion-checkbox>
+                <ion-label>{{contact.user.firstname}}</ion-label>
+                <small item-right *ngIf="contact.bought">already invited</small>
+                <div item-right text-right>
+                  <ion-icon color="mealgreen" name="checkmark" *ngIf="getInviteStatus(contact.user.id) == 'sent'"></ion-icon>
+                  <ion-spinner color="mealgreen" *ngIf="getInviteStatus(contact.user.id) == 'sending'"></ion-spinner>
+                  <small color="danger" *ngIf="getInviteStatus(contact.user.id) == 'already'">already invited<br />by someone else</small>
+                  <small color="silver" *ngIf="getInviteStatus(contact.user.id) == 'wrong'">try again</small>
+                </div>
+            </button>
+        </div>
+    </ion-list>
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar color="whitelight" *ngIf="showClose" >
+        <ion-buttons right>
+            <button ion-button color="dark" (click)="dismiss()">
+              Continue &nbsp; &nbsp; <ion-icon name="arrow-round-forward"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+    <ion-toolbar color="mealgreen">
+        <button ion-button block clear color="whitelight" (click)="sendInvites()" *ngIf="ccs.length > 0">Invite</button>
+    </ion-toolbar>
+</ion-footer>

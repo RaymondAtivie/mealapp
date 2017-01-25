@@ -1,0 +1,37 @@
+<ion-header>
+
+    <ion-navbar color="dark">
+        <ion-searchbar [animated]='true' [debounce]="600" (ionInput)="search($event)" #searchInput></ion-searchbar>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+    <ion-list>
+        <div *ngFor="let food of meals">
+            <ion-item (click)="gotoFood(food)" *ngIf="food.main != 'Combo'" text-wrap>
+                 <ion-thumbnail item-right class="foodthumb" [ngStyle]="{'background-image': 'url('+food.colorcode+')'}" >
+                        <!--<img src="{{food.colorcode}}">-->
+                    </ion-thumbnail>
+                <h3 class="mainName">{{food.name}}</h3>
+                <small class="extra">Vendor: {{food.vendor.name}}</small>
+                <small *ngIf="food.calories" class="extra"> <br />Calories: {{food.calories}}</small>
+                <div class="rating">
+                    <span *ngFor="let item of [1,2,3,4,5]">
+                            <ion-icon name="ios-star" [color]="getStarColor(food.rating.rating, item)" ></ion-icon>
+                        </span>
+                </div>
+                <div class="priceText">₦{{food.price}}</div>
+                <!--<button ion-fab mini item-right color="mealgreen" (click)="$event.stopPropagation(); addToCart(food)">
+                        <ion-icon name="add"></ion-icon>
+                    </button>-->
+            </ion-item>
+        </div>
+        <ion-item text-center *ngIf="meals.length < 1">
+            No result for "<b>{{searchTerm}}</b>"
+        </ion-item>
+    </ion-list>
+
+</ion-content>

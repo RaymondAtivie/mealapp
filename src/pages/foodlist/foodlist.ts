@@ -1,8 +1,9 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NavController, ModalController, MenuController, Events, Content } from 'ionic-angular';
+import { NavController, ModalController, MenuController, PopoverController, Events, Content } from 'ionic-angular';
 
 import { CartPage } from '../cart/cart';
 import { FoodPage } from '../food/food';
+import { SubmenuList } from '../submenu/submenu';
 
 import { GetterService } from '../../providers/getter';
 import { CartService } from '../../providers/cart';
@@ -20,10 +21,12 @@ export class FoodlistPage {
   @ViewChild(Content) content: Content;
   // @ViewChild(foodList) foodContent; 
 
-  stickyTop:boolean = false;
+  stickyTop: boolean = false;
   headerClass: any = "imageFood";
   tabToolClass: any = 'none';
   meal: string;
+  subfood: string;
+  subdrink: string;
   cartquantity: number;
   animateClass: any = [];
   cartColor: string = "primary";
@@ -35,24 +38,30 @@ export class FoodlistPage {
     public navCtrl: NavController,
     public modalCtrl: ModalController,
     public menuCtrl: MenuController,
+    public popoverCtrl: PopoverController,
     public getter: GetterService,
     public cart: CartService,
     public USER: UserService,
     public events: Events,
     public myElement: ElementRef
+    
   ) {
     this.menuCtrl.swipeEnable(true);
     this.meal = "food";
+    this.subfood = "breakfast";
+    this.subdrink = "smoothie";
     this.loadMeals();
     this.cartquantity = this.cart.cartNum;
     this.events.subscribe('cart:add', (cartnum) => {
       this.cartquantity = cartnum;
     });
+    this.events.subscribe('order:placed', () => {
+      this.cartquantity = 0;
+    });
   }
-
-  ngOnInit() {
-    // Ionic scroll element
-
+  
+  doRefresh(ev){
+    console.log(ev);
   }
 
   ionViewDidLoad() {
@@ -74,6 +83,62 @@ export class FoodlistPage {
     } else {
       this.headerClass = "imageFood";
     }
+  }
+
+  selectedSubTab(text) {
+    console.log(text);
+    // if (text == 'drinks') {
+    //   this.headerClass = "imageDrinks";
+    // } else {
+    //   this.headerClass = "imageFood";
+    // }
+  }
+
+  // geturl(image){
+  //   return this.sanitizer.bypassSecurityTrustStyle(image);
+  //   // return image;
+  // }
+
+  showSubMenu(myEvent) {
+    let popover = this.popoverCtrl.create(SubmenuList, {nCtrl: this.navCtrl});
+    popover.present({
+      ev: myEvent
+    });
+
+    popover.onDidDismiss(data => {
+      if (data) {
+        console.log(data);
+        if (data.main == "drinks") {
+          this.selectedTab("drinks");
+          this.meal = 'drinks';
+          this.subdrink = data.sub;
+        } else {
+          this.selectedTab("food");
+          this.meal = 'food';
+          this.subfood = data.sub;
+        }
+      }
+
+    });
+  }
+
+  filterList(fooddrinks: string, itemMain: string) {
+    let checker;
+    if (fooddrinks == 'drinks') {
+      checker = this.subdrink.toLowerCase();
+    } else {
+      checker = this.subfood.toLowerCase();
+    }
+
+    if (itemMain.toLowerCase().indexOf(checker) >= 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  camelCase(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
   // getheaderClass() {

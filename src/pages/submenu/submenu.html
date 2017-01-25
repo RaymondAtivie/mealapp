@@ -1,0 +1,14 @@
+<ion-list>
+    <button ion-item icon-left (click)="search()">
+      <ion-icon name="search"></ion-icon>
+      Search
+    </button>
+    <!--<ion-item-divider>Food</ion-item-divider>-->
+    <button ion-item (click)="selectOption('food', 'breakfast')">Breakfast</button>
+    <button ion-item (click)="selectOption('food', 'lunch')">Lunch</button>
+    <button ion-item (click)="selectOption('food', 'takehome')">Take Home</button>
+    <button ion-item (click)="selectOption('drinks', 'smoothie')">Drinks</button>
+    <!--<ion-item-divider>Drinks</ion-item-divider>-->
+    <!--<button ion-item (click)="selectOption('drinks', 'smoothie')">Smoothies</button>-->
+    <!--<button ion-item (click)="selectOption('drinks', 'juice')">Juices</button>-->
+</ion-list>

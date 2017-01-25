@@ -11,6 +11,7 @@ export class UserService {
   details: any = false;
   balance: any = 0;
   authcode: any;
+  inviteNum:number = 0;
 
   constructor(
     public http: Http,
@@ -133,6 +134,7 @@ export class UserService {
     this.details = false;
     this.balance = 0;
     this.authcode = false;
+    this.inviteNum = 0;
     this.storage.remove('authcode');
 
     return new Promise(resolve => {

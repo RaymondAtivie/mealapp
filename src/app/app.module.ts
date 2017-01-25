@@ -16,6 +16,9 @@ import { HistoryPage } from '../pages/history/history';
 import { ReferPage } from '../pages/refer/refer';
 import { OrderDetailPage } from '../pages/order-detail/order-detail';
 import { OrderRatePage } from '../pages/order-rate/order-rate';
+import { SubmenuList } from '../pages/submenu/submenu';
+import { SearchPage } from '../pages/search/search';
+import { InvitecontactPage } from '../pages/invitecontact/invitecontact';
 
 import { GetterService } from '../providers/getter';
 import { SetterService } from '../providers/setter';
@@ -40,9 +43,8 @@ const cloudSettings: CloudSettings = {
   }
 };
 
-@NgModule({
-  declarations: [
-    MyApp,
+let PageList:any = [
+   MyApp,
     LoginPage,
     SignupPage,
     HomePage,
@@ -54,8 +56,14 @@ const cloudSettings: CloudSettings = {
     CheckoutPage,
     HistoryPage,
     OrderDetailPage,
-    OrderRatePage
-  ],
+    OrderRatePage,
+    SubmenuList,
+    SearchPage,
+    InvitecontactPage
+];
+
+@NgModule({
+  declarations: PageList,
   imports: [
     IonicModule.forRoot(MyApp, {
             mode: "md"
@@ -65,22 +73,9 @@ const cloudSettings: CloudSettings = {
     CloudModule.forRoot(cloudSettings)
   ],
   bootstrap: [IonicApp],
-  entryComponents: [
-    MyApp,
-    LoginPage,
-    SignupPage,
-    HomePage,
-    FoodlistPage,
-    FoodPage,
-    ReferPage,
-    CartPage,
-    WalletPage,
-    CheckoutPage,
-    HistoryPage,
-    OrderDetailPage,
-    OrderRatePage
-  ],
+  entryComponents: PageList,
   providers: [
+    // { provide: Storage, useFactory: provideStorage },
     Storage,
     UserService,
     GetterService,
@@ -90,3 +85,8 @@ const cloudSettings: CloudSettings = {
   ]
 })
 export class AppModule { }
+
+// export function provideStorage() {
+//   return new Storage(['sqlite', 'websql', 'indexeddb'], { name: '__mydb' });
+//   return new Storage(['sqlite', 'websql', 'indexeddb']);
+// }

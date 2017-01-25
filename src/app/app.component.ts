@@ -1,8 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform, ModalController, ToastController, AlertController, Events } from 'ionic-angular';
-import { StatusBar, Splashscreen } from 'ionic-native';
+import { StatusBar, Splashscreen, GoogleAnalytics } from 'ionic-native';
 
-import { Push, PushToken, Deploy } from '@ionic/cloud-angular';
+import { Push, PushToken } from '@ionic/cloud-angular';
 
 // import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
@@ -12,6 +12,8 @@ import { WalletPage } from '../pages/wallet/wallet';
 import { HistoryPage } from '../pages/history/history';
 import { ReferPage } from '../pages/refer/refer';
 
+// import { InvitecontactPage } from '../pages/invitecontact/invitecontact';
+// 
 import { UserService } from "../providers/user";
 import { GetterService } from "../providers/getter";
 import { CartService } from "../providers/cart";
@@ -22,7 +24,7 @@ import { CartService } from "../providers/cart";
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any;
+  rootPage: any = HomePage;
   user: any = { data: {}, officedata: {} };
   cartNum: any = 0;
 
@@ -38,24 +40,55 @@ export class MyApp {
     public getter: GetterService,
     public cart: CartService,
     public push: Push,
-    public deploy: Deploy
+    // public deploy: Deploy
   ) {
     this.initializeApp();
     setTimeout(() => {
       console.log("cartnum menu");
       this.cartNum = this.cart.getCartNum();
     }, 1000);
+    this.events.subscribe('order:placed', () => {
+      this.cartNum = 0;
+    });
+
+    // this.initGoogleAnalytics();
 
     // used for an example of ngFor and navigation
     this.pages = [
       // { title: 'Home', component: HomePage },
       { title: 'Meal List', component: FoodlistPage },
       { title: 'My Cart', component: CartPage, modal: true, badge: 1 },
-      { title: 'Order History', component: HistoryPage },
+      { title: 'My Orders', component: HistoryPage },
       { title: 'Get Free Food', component: ReferPage },
-      { title: 'Wallet', component: WalletPage }
+      { title: 'Wallet', component: WalletPage },
+      // { title: 'Invite', component: InvitecontactPage, modal: true }
     ];
 
+  }
+
+  initGoogleAnalytics() {
+    var trackingId = 'UA-89661414-1';
+    // if (/(android)/i.test(navigator.userAgent)) { // for android 
+    //   trackingId = 'UA-89661414-1';
+    // } else if (/(ipod|iphone|ipad)/i.test(navigator.userAgent)) { // for ios
+    //   trackingId = 'UA-89661414-1';
+    // }
+
+    //platform is injected in the Constructor
+    this.platform.ready().then(() => {
+      console.log(99);
+      GoogleAnalytics.debugMode();
+      GoogleAnalytics.startTrackerWithId(trackingId).then(() => {
+        console.log("GoogleAnalytics Initialized with ****** : " + trackingId);
+
+        GoogleAnalytics.enableUncaughtExceptionReporting(true)
+          .then((_success) => {
+            console.log("GoogleAnalytics enableUncaughtExceptionReporting Enabled.");
+          }).catch((_error) => {
+            console.log("GoogleAnalytics Error enableUncaughtExceptionReporting : " + _error)
+          });
+      });
+    });
   }
 
   initializeApp() {
@@ -65,19 +98,16 @@ export class MyApp {
       StatusBar.styleDefault();
       Splashscreen.hide();
 
-      this.deploy.check().then((snapshotAvailable: boolean) => {
-        if (snapshotAvailable) {
-          // When snapshotAvailable is true, you can apply the snapshot
-          this.deploy.download().then(() => {
-            return this.deploy.extract();
-          }).then(() => {
-            this.showToast("New update available. Restart your app to get it");
-            // setTimeout(() => {
-            //   this.deploy.load();
-            // }, 10000);
-          });
-        }
-      });
+      // this.deploy.check().then((snapshotAvailable: boolean) => {
+      //   if (snapshotAvailable) {
+      //     // When snapshotAvailable is true, you can apply the snapshot
+      //     this.deploy.download().then(() => {
+      //       return this.deploy.extract();
+      //     }).then(() => {
+      //       this.showToast("New update available. Restart your app to get it");
+      //     });
+      //   }
+      // });
 
 
       this.USER.auth()
@@ -88,7 +118,7 @@ export class MyApp {
             this.USER.getbalance()
               .then(balance => this.user.balance = balance);
 
-              this.gotoHome()
+            this.gotoHome()
               .then(() => {
                 this.push.register()
                   .then((t: PushToken) => {
@@ -97,9 +127,9 @@ export class MyApp {
                     console.log('Token saved:', t.token);
                   });
               });
-          }else{
-            document.getElementById("custom-overlay").style.display = "none";   
-            this.rootPage = HomePage;
+          } else {
+            // document.getElementById("custom-overlay").style.display = "none";
+            console.log("Closing splash home");
           }
         });
 
@@ -118,7 +148,9 @@ export class MyApp {
   }
 
   gotoHome() {
-    document.getElementById("custom-overlay").style.display = "none";   
+    // document.getElementById("custom-overlay").style.display = "none";
+    console.log("Closing splash foodlist");
+
     return this.nav.setRoot(FoodlistPage);
   }
 

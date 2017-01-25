@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NavController, ToastController, AlertController, NavParams, Events } from 'ionic-angular';
 
 import { LoginPage } from "../login/login";
@@ -12,6 +12,15 @@ import { UserService } from "../../providers/user";
 })
 export class SignupPage {
 
+  @ViewChild('fName') fNameInput;
+  @ViewChild('email') emailInput;
+  @ViewChild('phone') phoneInput;
+  @ViewChild('password') passwordInput;
+
+  @ViewChild('officename') officenameInput;
+  @ViewChild('officeaddress') officeaddressInput;
+  @ViewChild('officelocation') officelocationInput;
+
   companies: any = [];
   comps: any = [];
   user: any = {};
@@ -20,6 +29,7 @@ export class SignupPage {
   locations = [];
   workplaceload = false;
   showWorkForm = false;
+  fresh: boolean = false;
 
   constructor(
     public navCtrl: NavController,
@@ -43,14 +53,14 @@ export class SignupPage {
     //   });
 
     this.getter.loadCompanies()
-    .then(companies => {
-      this.comps = companies;
-      this.companies = companies;
+      .then(companies => {
+        this.comps = companies;
+        // this.companies = companies;
 
-      console.log(companies);
+        console.log(companies);
 
-      this.workplaceload = false;
-    });
+        this.workplaceload = false;
+      });
 
     this.initializeLocation();
 
@@ -91,6 +101,8 @@ export class SignupPage {
   }
 
   searchWorkplace(ev: any) {
+    this.fresh = true;
+
     this.initializeCompanies();
 
     let val = ev.target.value;
@@ -118,7 +130,7 @@ export class SignupPage {
 
     this.stage = 3;
     this.next();
-    
+
   }
 
   noCompany() {
@@ -126,7 +138,7 @@ export class SignupPage {
     this.user = {};
   }
 
-  changeWorkplace(){
+  changeWorkplace() {
     this.stage = 2;
     this.prev();
   }
@@ -174,32 +186,69 @@ export class SignupPage {
   register() {
     console.log(this.user);
 
-    if (this.user.password != this.user.cpassword) {
-      this.showToast("Passwords do not match");
+    let x = this.user.email;
+    if (!x) {
+      x = "";
+    }
+    console.log(x);
+    var atpos = x.indexOf("@");
+    var dotpos = x.lastIndexOf(".");
+
+
+    if (!this.user.firstname) {
+      this.showToast("Please fill your full name correctly")
+        .then(() => {
+          this.fNameInput.setFocus();
+        });
+      return false;
+    } else if (!this.user.email) {
+      this.showToast("Please fill your email correctly")
+        .then(() => {
+          this.emailInput.setFocus();
+        });
+      return false;
+    } else if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= x.length) {
+      this.showToast("Please enter a valid email address")
+        .then(() => {
+          this.emailInput.setFocus();
+        });
+      return false;
+
+    } else if (!this.user.phoneNo) {
+      this.showToast("Please fill your phone number correctly")
+        .then(() => {
+          this.phoneInput.setFocus();
+        });
+      return false;
+    } else if (!this.user.password) {
+      this.showToast("Password field is required")
+        .then(() => {
+          this.passwordInput.setFocus();
+        });
       return false;
     }
 
-
     if (this.user.password != this.user.cpassword) {
-      this.showToast("Passwords do not match");
-      return false;
-    }
-
-    if (!this.user.firstname || !this.user.email || !this.user.phoneNo || !this.user.password) {
-      this.showToast("Please fill your details correctly");
+      this.showToast("Passwords do not match")
+        .then(() => {
+          this.passwordInput.setFocus();
+        })
       return false;
     }
 
     if (!this.user.company) {
-      this.showToast("Please select your company");
+      this.showToast("Please fill your company details");
       return false;
     }
 
+    console.log(this.user.dob);
+    
     let userreg = {
       firstname: this.user.firstname,
       email: this.user.email,
       phoneNo: this.user.phoneNo,
       password: this.user.password,
+      dob: this.user.dob,
     };
 
     if (this.user.refcode) {
@@ -210,7 +259,16 @@ export class SignupPage {
     } else {
 
       if (!this.user.officename || !this.user.officeaddress || !this.user.officelocation || !this.user.officeplace) {
-        this.showToast("Please fill your office details correctly");
+        this.showToast("Please fill your office details correctly")
+          .then(() => {
+            if (!this.user.officename) {
+              this.officenameInput.setFocus();
+            } else if (!this.user.officeaddress) {
+              this.officeaddressInput.setFocus();
+            } else if (!this.user.officelocation) {
+              this.officelocationInput.setFocus();
+            }
+          });
         return false;
       }
       if (this.user.companyselected) {
@@ -221,7 +279,43 @@ export class SignupPage {
       userreg['officelocation'] = this.user.officelocation + " - " + this.user.officeplace;
     }
 
-    this.loading = true;
+    if (this.user.refcode) {
+      this.getter.loadlink("confirmrefcode?refcode=" + this.user.refcode)
+        .then(result => {
+          if (result['error'] == false) {
+            if (result['result'] == false) {
+              this.showToast("Invalid refferal code");
+              return false;
+            } else {
+              this.loading = true;
+              this.setter.submit("register", userreg)
+                .then(res => {
+                  console.log(res);
+                  if (res['error'] == false) {
+                    this.showToast("Successfully registered.");
+                    this.USER.loginUser(this.user)
+                      .then(e => {
+                        if (e['error'] == true) {
+                          this.gotoLogin()
+                        } else {
+                          this.events.publish('user:login', e['payload']);
+                          this.showToast("Successfully logged in");
+                          this.loading = false;
+                        }
+                      });
+                    // this.gotoLogin();
+                  } else {
+                    let msg = res['result']['errors'][0];
+                    this.showToast("Oops! - " + msg);
+                  }
+                  this.loading = false;
+                });
+            }
+          }
+
+        })
+    }else{
+      this.loading = true;
     this.setter.submit("register", userreg)
       .then(res => {
         console.log(res);
@@ -244,6 +338,33 @@ export class SignupPage {
         }
         this.loading = false;
       });
+    }
+
+    // console.log("registered!!");
+
+    // this.loading = true;
+    // this.setter.submit("register", userreg)
+    //   .then(res => {
+    //     console.log(res);
+    //     if (res['error'] == false) {
+    //       this.showToast("Successfully registered.");
+    //       this.USER.loginUser(this.user)
+    //         .then(e => {
+    //           if (e['error'] == true) {
+    //             this.gotoLogin()
+    //           } else {
+    //             this.events.publish('user:login', e['payload']);
+    //             this.showToast("Successfully logged in");
+    //             this.loading = false;
+    //           }
+    //         });
+    //       // this.gotoLogin();
+    //     } else {
+    //       let msg = res['result']['errors'][0];
+    //       this.showToast("Oops! - " + msg);
+    //     }
+    //     this.loading = false;
+    //   });
 
   }
 
@@ -274,15 +395,15 @@ export class SignupPage {
       duration: 4000,
       position: "bottom"
     });
-    toast.present();
+    return toast.present();
   }
 
-    next(){
-        // this.signupSlider.slideNext();
-    }
- 
-    prev(){
-        // this.signupSlider.slidePrev();
-    }
+  next() {
+    // this.signupSlider.slideNext();
+  }
+
+  prev() {
+    // this.signupSlider.slidePrev();
+  }
 
 }

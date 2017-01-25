@@ -4,14 +4,21 @@
         <button ion-button menuToggle>
           <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title></ion-title>
+        <ion-title>
+            <!--{{camelCase(meal)}}-->
+            <!--<span *ngIf="meal == 'food'">{{camelCase(subfood)}}</span>
+            <span *ngIf="meal == 'drinks'">Drinks</span>-->
+        </ion-title>
         <ion-buttons right>
+            <!--<button ion-button icon-only (click)="search()">
+                <ion-icon name="search"></ion-icon>
+            </button>-->
             <button ion-button icon-only (click)="presentCart()">
             {{cartquantity}}<ion-icon name="cart"></ion-icon>
             </button>
         </ion-buttons>
     </ion-navbar>
-    
+
     <ion-toolbar color="transparent" class="sticky">
         <ion-segment [(ngModel)]="meal" color="greenmeal" [hidden]="!stickyTop">
             <ion-segment-button value="food" (click)="selectedTab('food')">
@@ -20,9 +27,6 @@
             <ion-segment-button value="drinks" (click)="selectedTab('drinks')">
                 Drinks
             </ion-segment-button>
-            <!--<ion-segment-button value="snacks">
-                Snacks
-            </ion-segment-button>-->
         </ion-segment>
     </ion-toolbar>
 
@@ -34,7 +38,7 @@
     <div class="headerImg"></div>
 
     <div id="sticky-anchor"></div>
-    <ion-toolbar color="transparent" class="sticky" *ngIf="!stickyTop" >
+    <ion-toolbar color="transparent" class="sticky" *ngIf="!stickyTop">
         <ion-segment [(ngModel)]="meal" color="greenmeal">
             <ion-segment-button value="food" (click)="selectedTab('food')">
                 Food
@@ -42,22 +46,35 @@
             <ion-segment-button value="drinks" (click)="selectedTab('drinks')">
                 Drinks
             </ion-segment-button>
-            <!--<ion-segment-button value="snacks">
-                Snacks
-            </ion-segment-button>-->
         </ion-segment>
     </ion-toolbar>
 
     <div class="meal-box" [ngSwitch]="meal">
         <ion-list *ngSwitchCase="'food'">
-            <!--<div class="headerImg"></div>-->
+            
+            <ion-toolbar color="whitelight">
+                <ion-segment [(ngModel)]="subfood" color="mealgreen">
+                    <ion-segment-button value="breakfast" (click)="selectedSubTab('breakfast')">
+                        Breakfast
+                    </ion-segment-button>
+                    <ion-segment-button value="lunch" (click)="selectedSubTab('lunch')">
+                        Lunch
+                    </ion-segment-button>
+                    <ion-segment-button value="takehome" (click)="selectedSubTab('takehome')">
+                        Take Home
+                    </ion-segment-button>
+                </ion-segment>
+            </ion-toolbar>
+
             <ion-item text-center *ngIf="foods.length < 1">
                 <ion-spinner></ion-spinner>
             </ion-item>
+            <ion-item style="height: 500px" *ngIf="foods.length < 1"></ion-item>
+            
             <div *ngFor="let food of foods">
-                <ion-item (click)="gotoFood(food)" *ngIf="food.main != 'Combo'">
-                    <ion-thumbnail item-right>
-                        <img src="{{food.colorcode}}">
+                <ion-item (click)="gotoFood(food)" *ngIf="food.main != 'Combo' && filterList('food', food.main)" text-wrap>
+                    <ion-thumbnail item-right class="foodthumb" [ngStyle]="{'background-image': 'url('+food.colorcode+')'}">
+                        <!--<img src="{{food.colorcode}}">-->
                     </ion-thumbnail>
                     <h3 class="mainName">{{food.name}}</h3>
                     <small class="extra">Vendor: {{food.vendor.name}}</small>
@@ -76,13 +93,23 @@
         </ion-list>
 
         <ion-list *ngSwitchCase="'drinks'">
+            <!--<ion-toolbar color="whitelight">
+                <ion-segment [(ngModel)]="subdrink" color="mealgreen">
+                    <ion-segment-button value="smoothie" (click)="selectedSubTab('smoothie')">
+                        Smoothie
+                    </ion-segment-button>
+                    <ion-segment-button value="juice" (click)="selectedSubTab('juice')">
+                        Jucie
+                    </ion-segment-button>
+                </ion-segment>
+            </ion-toolbar>-->
             <ion-item text-center *ngIf="drinks.length < 1">
                 <ion-spinner></ion-spinner>
             </ion-item>
             <div *ngFor="let drink of drinks">
-                <ion-item (click)="gotoFood(drink)" *ngIf="drink.main != 'Combo'">
-                    <ion-thumbnail item-right>
-                        <img src="{{drink.colorcode}}">
+                <ion-item (click)="gotoFood(drink)" *ngIf="drink.main != 'Combo'" text-wrap>
+                    <ion-thumbnail item-right class="foodthumb" [ngStyle]="{'background-image': 'url('+drink.colorcode+')'}">
+                        <!--<img src="{{food.colorcode}}">-->
                     </ion-thumbnail>
                     <h3 class="mainName">{{drink.main}} - {{drink.name}}</h3>
                     <small class="extra">Vendor: {{drink.vendor.name}}</small>
@@ -110,7 +137,16 @@
         </ion-list>-->
     </div>
 
-    <!--<ion-fab bottom right [ngClass]="animateClass">
-        <button ion-fab [color]="cartColor" (click)="presentCart()">{{cartquantity}}<ion-icon name="cart"></ion-icon></button>
+    <!--<ion-fab bottom right edge *ngIf="cartquantity > 0">
+        <button ion-fab color="dark" (click)="showSubMenu($event)"><ion-icon name="menu"></ion-icon></button>
     </ion-fab>-->
+    <ion-fab bottom right>
+        <button ion-fab color="dark" (click)="showSubMenu($event)"><ion-icon name="menu"></ion-icon></button>
+    </ion-fab>
 </ion-content>
+
+<ion-footer *ngIf="cartquantity > 0">
+    <ion-toolbar color="mealgreen" text-center>
+        <button ion-button block clear color="whitelight" (click)="presentCart()">Check out ({{cartquantity}} <ion-icon name="cart"></ion-icon>)</button>
+    </ion-toolbar>
+</ion-footer>

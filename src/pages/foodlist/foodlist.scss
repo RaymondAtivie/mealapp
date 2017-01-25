@@ -1,24 +1,24 @@
 page-foodlist {
     ion-content {
-        background-color: #454444 !important;
+        background-color: white !important;
         background-size: contain;
         &.imageFood {
-            background: url('../assets/backfood.jpg') repeat top center;
+            background: url('../assets/backfood.jpg') no-repeat top center;
             background-size: contain;
         }
         &.imageDrinks {
-            background: url('../assets/backdrink.jpg') repeat top center;
-            background-size: contain;
+            background: url('../assets/backdrink.jpg') no-repeat top center;
+            background-size: cover;
         }
         .headerImg {
             background-color: transparent;
-            // background: url("../assets/home.jpg") no-repeat center center;
             background-size: cover;
             height: 150px;
             width: 100%;
         }
-        .meal-box {
-            // margin-bottom: 100px;
+        .foodthumb{
+            background: no-repeat center center;
+            background-size: cover;
         }
         .rating {
             ion-icon {

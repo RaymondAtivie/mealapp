@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, ViewController, ToastController, NavParams, Events } from 'ionic-angular';
+import { NavController, ViewController, ToastController, ModalController, NavParams, Events } from 'ionic-angular';
+
+import { InvitecontactPage } from "../invitecontact/invitecontact";
 
 import { CartService } from "../../providers/cart";
 import { UserService } from "../../providers/user";
@@ -23,6 +25,7 @@ export class CheckoutPage {
     public navCtrl: NavController,
     public viewCtrl: ViewController,
     public toastCtrl: ToastController,
+    public modalCtrl: ModalController,
     public cart: CartService,
     public setter: SetterService,
     public getter: GetterService,
@@ -62,7 +65,7 @@ export class CheckoutPage {
       company_paid: this.company_pay,
       refcode: this.USER.getUser().data.refcode
     }
-
+ 
     console.log(this.checkoutdata);
   }
 
@@ -85,7 +88,11 @@ export class CheckoutPage {
           this.cart.destroyCart();
           this.dismiss()
             .then(() => {
-              this.getter.showRateMeal(this.USER.getUser().data.token);
+              let modal = this.modalCtrl.create(InvitecontactPage);
+              modal.present();
+              modal.onDidDismiss(() => {
+                this.getter.showRateMeal(this.USER.getUser().data.token);
+              })
             });
         }
         this.loading = false;

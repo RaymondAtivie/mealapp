@@ -11,6 +11,7 @@ export class GetterService {
 
   data: any;
   meals: any;
+  allMeals: any = [];
   companies: any;
   apiLink: string = "http://mealimeter.herokuapp.com/";
   // apiLink: string = "http://localhost/mealimeter_/index.php/";
@@ -59,6 +60,7 @@ export class GetterService {
   checkMeals() {
     if (this.meals) {
       console.log("getting from property");
+      this.storeAllMeals();
       return Promise.resolve(this.meals);
       // }else{
       //   return Promise.resolve(false);
@@ -70,11 +72,37 @@ export class GetterService {
           console.log(m);
           if (m) {
             this.meals = m;
+            this.storeAllMeals();
             resolve(m);
           } else {
             console.log("no meals in property or storage");
             resolve(false);
           }
+        });
+    });
+  }
+
+  getMealsFromOnline(office_id) {
+    return new Promise(resolve => {
+      let link = "";
+
+      if (office_id) {
+        link = this.apiLink + 'getfoodlist?office_id=' + office_id;
+      } else {
+        link = this.apiLink + 'getfoodlist';
+      }
+
+      this.http.get(link)
+        .map(res => res.json())
+        .subscribe(data => {
+          this.meals = {
+            food: data.food,
+            drinks: data.drinks
+          };
+          this.storeAllMeals();
+          console.log("storing meals in storage" + this.meals);
+          this.storage.set("meals", this.meals);
+          resolve(this.meals);
         });
     });
   }
@@ -102,6 +130,7 @@ export class GetterService {
                   food: data.food,
                   drinks: data.drinks
                 };
+                this.storeAllMeals();
                 console.log("storing meals in storage" + this.meals);
                 this.storage.set("meals", this.meals);
                 resolve(this.meals);
@@ -141,7 +170,7 @@ export class GetterService {
   }
 
   loadCompanies() {
-    if(this.companies){
+    if (this.companies) {
       return Promise.resolve(this.companies);
     }
     return new Promise(resolve => {
@@ -161,6 +190,24 @@ export class GetterService {
           // this.workplaceload = false;
         });
     });
+  }
+
+  storeAllMeals() {
+    // if (this.allMeals == []) {
+    let foods = this.meals.food;
+    let drinks = this.meals.drinks;
+    let nMeals = [];
+
+    foods.forEach(food => {
+      nMeals.push(food);
+    });
+    drinks.forEach(drink => {
+      nMeals.push(drink);
+    });
+    // }
+    this.allMeals = nMeals;
+    console.log(this.allMeals);
+    return this.allMeals;
   }
 
   // getCompanies(){

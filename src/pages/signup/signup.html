@@ -20,7 +20,7 @@
                 Loading workplaces...
                 <ion-spinner></ion-spinner>
             </ion-item>
-            <button ion-item text-center (click)="noCompany()">
+            <button ion-item text-center *ngIf="fresh" (click)="noCompany()">
                     Not on list?<br />
                     <small>Add your workplace</small>
                 </button>
@@ -55,16 +55,17 @@
             <div *ngIf="showWorkForm">
                 <ion-item>
                     <ion-label floating>Workplace Name</ion-label>
-                    <ion-input [(ngModel)]="user.officename" type="text"></ion-input>
+                    <ion-input [(ngModel)]="user.officename" #officename type="text"></ion-input>
                 </ion-item>
                 <ion-item>
                     <ion-label floating>Workplace Street Name only</ion-label>
-                    <ion-input [(ngModel)]="user.officeaddress" type="text"></ion-input>
+                    <ion-input [(ngModel)]="user.officeaddress" #officeaddress type="text"></ion-input>
                 </ion-item>
                 <ion-item>
                     <ion-label floating>Workplace Full Address</ion-label>
-                    <ion-input [(ngModel)]="user.officelocation" type="text"></ion-input>
+                    <ion-input [(ngModel)]="user.officelocation" #officelocation type="text"></ion-input>
                 </ion-item>
+                <br />
                 <ion-item>
                     <ion-label>Workplace Location</ion-label>
                     <ion-select [(ngModel)]="user.officeplace">
@@ -75,29 +76,35 @@
 
             <ion-item>
                 <ion-label floating>Full Name</ion-label>
-                <ion-input [(ngModel)]="user.firstname" type="text"></ion-input>
+                <ion-input [(ngModel)]="user.firstname" #fName type="text"></ion-input>
             </ion-item>
             <ion-item>
                 <ion-label floating>Email</ion-label>
-                <ion-input [(ngModel)]="user.email" type="email"></ion-input>
+                <ion-input [(ngModel)]="user.email" #email type="email"></ion-input>
             </ion-item>
             <ion-item>
                 <ion-label floating>Phone Number</ion-label>
-                <ion-input [(ngModel)]="user.phoneNo" type="tel"></ion-input>
+                <ion-input [(ngModel)]="user.phoneNo" #phone type="tel"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label floating>Birth Date (*optional - we have a suprise)</ion-label>
+                <ion-datetime displayFormat="D MMMM" pickerFormat="D MMMM" [(ngModel)]="user.dob"></ion-datetime>
+                <!--<ion-input type="text" [(ngModel)]="user.dob"></ion-input>-->
             </ion-item>
 
             <ion-item>
                 <ion-label floating>Password</ion-label>
-                <ion-input type="password" [(ngModel)]="user.password"></ion-input>
+                <ion-input type="password" #password [(ngModel)]="user.password"></ion-input>
             </ion-item>
 
             <ion-item>
                 <ion-label floating>Confirm Password</ion-label>
-                <ion-input type="password" [(ngModel)]="user.cpassword"></ion-input>
+                <ion-input type="password" #cPassowrd [(ngModel)]="user.cpassword"></ion-input>
             </ion-item>
 
             <ion-item>
-                <ion-label floating>Referral Code (optional*)</ion-label>
+                <ion-label floating>Referral Code (*optional)</ion-label>
                 <ion-input type="text" [(ngModel)]="user.refcode"></ion-input>
             </ion-item>
 

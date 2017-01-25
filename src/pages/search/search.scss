@@ -1,0 +1,28 @@
+page-search {
+    .searchbar-search-icon {
+        display: none;
+    }
+    .searchbar-input {
+        padding-left: 20px !important;
+    }
+    .foodthumb {
+        background: no-repeat center center;
+        background-size: cover;
+    }
+    .rating {
+        ion-icon {
+            font-size: 15px;
+            // color: color($colors, mealgreen)
+        }
+    }
+    .priceText {
+        color: color($colors, mealgreen);
+        font-size: 20px;
+    }
+    .extra {
+        font-size: 12px;
+    }
+    .mainName {
+        font-size: 16px;
+    }
+}

@@ -5,7 +5,7 @@
 </ion-header>
 <ion-content fullscreen padding text-center>
 
-    <div style="height: 70px"></div>
+    <div style="height: 10px"></div>
 
     <img src="assets/longlogo.png" style="width: 80%" />
 
@@ -23,18 +23,18 @@
 
     </ion-list>
 
-    <div style="height: 15px"></div>
+    <div style="height: 5px"></div>
     
     <div class="error-box">
         <ion-spinner *ngIf="spinner" ></ion-spinner>
         <!--<div class="errorMsg" *ngIf="errorMessage" ><b>{{errorMessage}}</b></div>-->
     </div>
     
-    <div style="height: 15px"></div>
+    <div style="height: 5px"></div>
 
-    <ion-row text-center>
+    <ion-row text-center *ngIf="!spinner">
         <ion-col width-80 offset-10>
-            <button ion-button block round color="mealgreen" (click)="login()">Login</button>
+            <button ion-button block round color="mealgreen" [disabled]="loading" (click)="login()">Login</button>
         </ion-col>
     </ion-row>
     <ion-row>

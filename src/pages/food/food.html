@@ -56,8 +56,13 @@
                 </ion-row>
             </div>
 
-            <div *ngIf="food.ingredients" >
-                <p>{{food.main}} - {{food.ingredients}}</p>
+            <div *ngIf="food.ingredients">
+                <p>{{camelCase(food.main)}} - {{food.ingredients}}</p>
+            </div>
+            <div class="deliverytime">
+                <p *ngIf="food.main == 'breakfast'">Breakfast Delivery: Before 8:30am</p>
+                <p *ngIf="food.main == 'lunch'">Lunch Delivery: Before 1:00pm</p>
+                <p *ngIf="food.main == 'takehome'">Take home Delivery: Before 4:30pm</p>
             </div>
         </div>
     </div>
@@ -85,6 +90,6 @@
 
 <ion-footer>
     <ion-toolbar color="mealgreen" text-center>
-        <button ion-button block clear color="whitelight" (click)="addToCart()">Add to cart ₦{{food.price}}</button>
+        <button ion-button block clear color="whitelight" (click)="addToCart()">Add to cart ₦{{food.price*quantity}}</button>
     </ion-toolbar>
 </ion-footer>

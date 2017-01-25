@@ -3,16 +3,19 @@ page-food {
         overflow: hidden;
         background-size: cover;
         min-height: 30%;
-        max-height: 60%;
+        max-height: 75%;
         width: 100%;
         margin-top: -56px;
+    }
+    .deliverytime{
+        font-weight: bold;
     }
     .contentBox{
         padding-right: 20px;
         padding-left: 20px;
         .priceText{
             color: color($colors, mealgreen);
-            font-size: 30px;
+            font-size: 20px;
         }
     }
     .rating {
